@@ -330,14 +330,15 @@ const renderPaymentStatusBadge = (item) => {
   }
   return <span className="badge bg-secondary">{status}</span>;
 };
+const roundTwoDecimals = (val) => Math.round(((Number(val) || 0) + Number.EPSILON) * 100) / 100;
 const getCategoryPaymentTotals = (payments = [], defaultPaid = 0, totalAmount = 0) => {
   if (!Array.isArray(payments) || payments.length === 0) {
-    const paid = Number(defaultPaid) || 0;
+    const paid = roundTwoDecimals(defaultPaid);
     const total = Number(totalAmount) || 0;
     return {
       approvedPaid: paid,
       pendingAmount: 0,
-      dueAmount: Math.max(0, total - paid),
+      dueAmount: roundTwoDecimals(Math.max(0, total - paid)),
     };
   }
   let approved = 0;
@@ -353,9 +354,9 @@ const getCategoryPaymentTotals = (payments = [], defaultPaid = 0, totalAmount = 
   });
   const total = Number(totalAmount) || 0;
   return {
-    approvedPaid: approved,
-    pendingAmount: pending,
-    dueAmount: Math.max(0, total - approved),
+    approvedPaid: roundTwoDecimals(approved),
+    pendingAmount: roundTwoDecimals(pending),
+    dueAmount: roundTwoDecimals(Math.max(0, total - approved)),
   };
 };
 const getPriceDisplayValue = (price) => (price === 0 || price ? price : "-");

@@ -2,10 +2,14 @@ import axios from "axios";
 import { AdminBaseUrl, baseurl } from "../Basurl/Baseurl";
 import {
   isReferralUser,
+  getReferralId,
   getReferralMysqlId,
   isInsuranceUser,
+  getInsuranceId,
   getInsuranceMysqlId,
 } from "../utils/authStorage";
+import { fetchReferralPatients } from "./referralApi";
+import { fetchInsurancePatients } from "./insuranceApi";
 
 const API_BASE = baseurl.endsWith("/") ? baseurl : `${baseurl}/`;
 
@@ -405,6 +409,36 @@ let lastOtherEnquiryUnreadFetchTime = 0;
 let cachedOtherEnquiryUnreadMemory = null;
 let otherEnquiry429BackoffUntil = 0;
 
+export const getPartnerAttachedPatientUserIds = async () => {
+  if (isInsuranceUser()) {
+    const insId = getInsuranceId();
+    if (!insId) return [];
+    const res = await fetchInsurancePatients(insId, { limit: 1000 });
+    const list = res?.patients || res?.data || [];
+    return Array.from(
+      new Set(
+        (Array.isArray(list) ? list : [])
+          .map((p) => String(p?.user_id ?? p?.userId ?? p?.patient_user_id ?? p?.id ?? "").trim())
+          .filter(Boolean)
+      )
+    );
+  }
+  if (isReferralUser()) {
+    const refId = getReferralId();
+    if (!refId) return [];
+    const res = await fetchReferralPatients(refId, { limit: 1000 });
+    const list = res?.patients || res?.data || [];
+    return Array.from(
+      new Set(
+        (Array.isArray(list) ? list : [])
+          .map((p) => String(p?.user_id ?? p?.userId ?? p?.patient_user_id ?? p?.id ?? "").trim())
+          .filter(Boolean)
+      )
+    );
+  }
+  return null;
+};
+
 export const fetchOtherEnquiryUnread = async (force = false) => {
   const token = getToken();
   if (!token) return null;
@@ -421,17 +455,29 @@ export const fetchOtherEnquiryUnread = async (force = false) => {
 
   inFlightOtherEnquiryUnreadPromise = (async () => {
     try {
-      const idsResponse = await axios.get(`${API_BASE}get_patient_user_ids`, {
-        headers: getAuthHeaders(),
-      });
-      if (!idsResponse.data?.success) return cachedOtherEnquiryUnreadMemory || getCachedOtherEnquiryUnread();
+      const partnerUserIds = await getPartnerAttachedPatientUserIds();
+      let requestPayload;
+      if (partnerUserIds !== null) {
+        requestPayload = {
+          user_ids: partnerUserIds,
+          accessCountries: [],
+          roleStatuses: [],
+          is_admin: 1,
+        };
+      } else {
+        const idsResponse = await axios.get(`${API_BASE}get_patient_user_ids`, {
+          headers: getAuthHeaders(),
+        });
+        if (!idsResponse.data?.success) return cachedOtherEnquiryUnreadMemory || getCachedOtherEnquiryUnread();
+        requestPayload = {
+          user_ids: idsResponse.data.user_ids,
+          accessCountries: idsResponse.data.accessCountries,
+          roleStatuses: idsResponse.data.roleStatuses,
+          is_admin: localStorage.getItem("Role") === "Admin" ? 1 : 0,
+        };
+      }
 
-      const response = await axios.post(`${AdminBaseUrl}other_enquiry_requests`, {
-        user_ids: idsResponse.data.user_ids,
-        accessCountries: idsResponse.data.accessCountries,
-        roleStatuses: idsResponse.data.roleStatuses,
-        is_admin: localStorage.getItem("Role") === "Admin" ? 1 : 0,
-      });
+      const response = await axios.post(`${AdminBaseUrl}other_enquiry_requests`, requestPayload);
 
       const unreadCount = response.data?.unreadCount;
       if (!unreadCount || typeof unreadCount !== "object") {

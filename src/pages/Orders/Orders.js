@@ -879,6 +879,7 @@ export default function Orders() {
                   <th style={{ minWidth: "115px" }}>Order ID</th>
                   <th style={{ minWidth: "160px" }}>Patient Name</th>
                   <th style={{ minWidth: "120px" }}>Payment Mode</th>
+                  <th style={{ minWidth: "130px" }}>Price / Total</th>
                   <th style={{ minWidth: "140px" }}>Order On</th>
                   <th style={{ minWidth: "115px" }}>Order Status</th>
                   <th className="text-center" style={{ width: "95px" }}>
@@ -890,7 +891,7 @@ export default function Orders() {
               <tbody>
                 {loading ? (
                   <tr>
-                    <td colSpan="8" className="text-center py-5 text-muted">
+                    <td colSpan="9" className="text-center py-5 text-muted">
                       <div className="spinner-border spinner-border-sm text-primary me-2" role="status" />
                       Loading orders data...
                     </td>
@@ -954,6 +955,27 @@ export default function Orders() {
                           )}
                         </td>
                         <td className="order-payment-mode">{order.paymentMode || "Cash On Delivery"}</td>
+                        <td className="order-amount-cell fw-bold text-dark">
+                          {order.paidAmount && Number(order.paidAmount) > 0 ? (
+                            <>
+                              {order.currencySymbol || (order.currency === "INR" ? "₹" : "Rs")}{" "}
+                              {typeof order.paidAmount === "number"
+                                ? order.paidAmount.toFixed(2)
+                                : order.paidAmount}
+                            </>
+                          ) : (
+                            <span className="text-muted" style={{ fontWeight: 500, fontSize: "12px" }}>
+                              {order.currencySymbol || (order.currency === "INR" ? "₹" : "Rs")} 0.00
+                              <span
+                                className="badge bg-light text-muted border ms-1"
+                                style={{ fontSize: "9.5px", padding: "2px 4px" }}
+                                title="Quotation / purchase bill pending"
+                              >
+                                Awaiting quote
+                              </span>
+                            </span>
+                          )}
+                        </td>
                         <td className="order-date-cell">{order.orderDate || "-"}</td>
 
                         {/* Colorful Order Status Badge */}
@@ -1024,7 +1046,7 @@ export default function Orders() {
                   })
                 ) : (
                   <tr>
-                    <td colSpan="8">
+                    <td colSpan="9">
                       <div className="orders-empty-state">
                         <div className="orders-empty-icon">
                           <i className="fa fa-folder-open-o" />

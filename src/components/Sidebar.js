@@ -371,6 +371,16 @@ export default function Sidebar() {
       condition: role === "Admin" || permissions.includes("/Payment_Data"),
     },
     {
+      path: "/Hospital_Commission",
+      actualPath: "/Admin/hospital-commission",
+      icon: "fa-hospital-o",
+      label: "Hospital Commission",
+      condition:
+        role === "Admin" ||
+        permissions.includes("/Hospital_Commission") ||
+        permissions.includes("/Payment_Data"),
+    },
+    {
       path: "/Manage_Roles",
       actualPath: "/Admin/roles",
       icon: "fa-line-chart",

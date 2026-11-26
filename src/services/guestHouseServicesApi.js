@@ -624,6 +624,7 @@ export const GH_PAYMENT_METHODS = [
   "Net Banking",
   "Via Net Banking",
   "Bank Transfer",
+  "Foundation",
   "Other",
 ];
 export const GH_SERVICE_DURATIONS = ["One-Time", "Day", "Week", "Month"];

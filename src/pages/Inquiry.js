@@ -92,6 +92,7 @@ import {
   markRequestRead,
   normalizeOtherEnquiryUnread,
   publishOtherEnquiryUnread,
+  getPartnerAttachedPatientUserIds,
   UNREAD_REFRESH_EVENT,
 } from "../services/unreadApi";
 import { clearUnreadById, UnreadDot } from "../components/NewTag";
@@ -497,7 +498,7 @@ export default function Inquiry() {
     if (String(role || "").toLowerCase() === "admin") {
       return true;
     }
-    if (isInsurance) {
+    if (isInsurance || isReferral) {
       return [0, 1, 2, 3, 4, 7].includes(tab.value);
     }
     return ENQUIRY_SUB_TAB_PERMISSIONS.includes(tab.permission)
@@ -579,7 +580,7 @@ export default function Inquiry() {
       user_ids: datauserId,
       accessCountries: getcountry,
       roleStatuses: rolestatus,
-      is_admin: statusRole === "Admin" ? 1 : 0,
+      is_admin: statusRole === "Admin" || isReferral ? 1 : 0,
     };
     try {
       const response = await axios.post(
@@ -2819,6 +2820,15 @@ export default function Inquiry() {
   };
   const getUserId = async () => {
     try {
+      const partnerUserIds = await getPartnerAttachedPatientUserIds();
+      if (partnerUserIds !== null) {
+        setDatauserId(partnerUserIds);
+        setGetcountries([]);
+        setRoleStatuses([]);
+        get3tabdata(partnerUserIds, [], []);
+        return;
+      }
+
       const response = await axios.get(`${baseurl}get_patient_user_ids`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -2827,6 +2837,7 @@ export default function Inquiry() {
       if (response.data.success) {
         console.log(response.data);
         console.log("a");
+        setDatauserId(response.data.user_ids || []);
         get3tabdata(
           response.data.user_ids,
           response.data.accessCountries,

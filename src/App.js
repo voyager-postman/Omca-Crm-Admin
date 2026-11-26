@@ -10,6 +10,7 @@ import History from "./pages/History";
 import Reports from "./pages/Reports";
 import Earnings from "./pages/Earning";
 import PaymentData from "./pages/PaymentData/PaymentData";
+import HospitalCommission from "./pages/HospitalCommission/HospitalCommission";
 import Inquiry from "./pages/Inquiry";
 import Treatments from "./pages/Treatments/Treatments";
 import Hospitals from "./pages/Hospitals/Hospitals";
@@ -168,6 +169,11 @@ function App() {
                 index
                 path="/Admin/payment-data"
                 element={<PaymentData />}
+              />
+              <Route
+                index
+                path="/Admin/hospital-commission"
+                element={<HospitalCommission />}
               />
               <Route in path="/Admin/inquiry" element={<Inquiry />} />
               <Route index path="/Admin/Services" element={<Services />} />

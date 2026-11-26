@@ -960,6 +960,7 @@ export default function Messages() {
   const [candidateHasMore, setCandidateHasMore] = useState(false);
   const [candidateLoadingMore, setCandidateLoadingMore] = useState(false);
   const [selectedMemberIds, setSelectedMemberIds] = useState([]);
+  const [selectedMembersMap, setSelectedMembersMap] = useState({});
   const [creatingGroup, setCreatingGroup] = useState(false);
 
   // Add Members state
@@ -2350,6 +2351,7 @@ export default function Messages() {
       setIsCreateGroupOpen(false);
       setNewGroupName("");
       setSelectedMemberIds([]);
+      setSelectedMembersMap({});
 
       const newGroup = normalizeChat({
         ...data,
@@ -2482,11 +2484,26 @@ export default function Messages() {
     }
   };
 
-  const toggleSelectMember = (userId) => {
+  const toggleSelectMember = (userId, memberObj = null) => {
     const id = String(userId);
-    setSelectedMemberIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-    );
+    const isAlreadySelected = selectedMemberIds.includes(id);
+    if (isAlreadySelected) {
+      setSelectedMemberIds((prev) => prev.filter((x) => x !== id));
+      setSelectedMembersMap((prev) => {
+        const next = { ...prev };
+        delete next[id];
+        return next;
+      });
+    } else {
+      const resolved =
+        memberObj ||
+        candidateMembers.find((c) => String(c.userId) === id) ||
+        null;
+      setSelectedMemberIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
+      if (resolved) {
+        setSelectedMembersMap((prev) => ({ ...prev, [id]: resolved }));
+      }
+    }
   };
 
   return (
@@ -3206,9 +3223,11 @@ export default function Messages() {
                   {selectedMemberIds.length > 0 && (
                     <div className="crm-chat-selected-tags">
                       {selectedMemberIds.map((id) => {
-                        const m = candidateMembers.find(
-                          (c) => String(c.userId) === String(id),
-                        );
+                        const m =
+                          selectedMembersMap[String(id)] ||
+                          candidateMembers.find(
+                            (c) => String(c.userId) === String(id),
+                          );
                         return (
                           <span key={id} className="crm-chat-selected-tag">
                             {m?.name || `User ${id}`}
@@ -3256,7 +3275,7 @@ export default function Messages() {
                   <div className="crm-chat-member-search">
                     <i className="fa fa-search" />
                     <input
-                      type="search"
+                      type="text"
                       placeholder={
                         candidateType === "staff"
                           ? "Search staff by name, role, email..."
@@ -3301,7 +3320,7 @@ export default function Messages() {
                               key={cand.userId}
                               className={`crm-chat-candidate-row ${isSelected ? "selected" : ""
                                 }`}
-                              onClick={() => toggleSelectMember(cand.userId)}
+                              onClick={() => toggleSelectMember(cand.userId, cand)}
                             >
                               <input
                                 type="checkbox"
@@ -3329,9 +3348,11 @@ export default function Messages() {
                                       Online
                                     </span>
                                   )}
-                                  {cand.role && (
-                                    <RoleBadge role={cand.role} size="sm" />
-                                  )}
+                                  {cand.role &&
+                                    String(cand.role).toLowerCase() !==
+                                      String(cand.userType || "").toLowerCase() && (
+                                      <RoleBadge role={cand.role} size="sm" />
+                                    )}
                                   {cand.userType && (
                                     <UserTypeBadge
                                       type={cand.userType}
@@ -3532,9 +3553,11 @@ export default function Messages() {
                                   <span style={{ fontSize: "12px", fontWeight: "bold" }}>
                                     {cand.name}
                                   </span>
-                                  {cand.role && (
-                                    <RoleBadge role={cand.role} size="sm" />
-                                  )}
+                                  {cand.role &&
+                                    String(cand.role).toLowerCase() !==
+                                      String(cand.userType || "").toLowerCase() && (
+                                      <RoleBadge role={cand.role} size="sm" />
+                                    )}
                                   {cand.userType && (
                                     <UserTypeBadge type={cand.userType} size="sm" />
                                   )}
@@ -3769,7 +3792,7 @@ export default function Messages() {
               <div className="crm-chat-member-search">
                 <i className="fa fa-search" />
                 <input
-                  type="search"
+                  type="text"
                   placeholder={
                     newChatType === "staff"
                       ? "Search staff by name, role, email, phone..."

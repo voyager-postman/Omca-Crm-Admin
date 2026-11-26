@@ -1080,6 +1080,14 @@
   }
 }
 
+.crm-chat-modal > form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
 .crm-chat-modal-header {
   padding: 16px 20px;
   border-bottom: 1px solid var(--chat-border);
@@ -1125,6 +1133,7 @@
 }
 
 .crm-chat-modal-footer {
+  flex-shrink: 0;
   padding: 14px 20px;
   border-top: 1px solid var(--chat-border);
   background: #f8fafc;

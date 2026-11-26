@@ -1085,8 +1085,6 @@ export default function PatientOrdersTab({ patient, userId: initialUserId }) {
                           <th>Medicine Name</th>
                           <th>Category</th>
                           <th className="text-center">Qty</th>
-                          <th className="text-end">Unit Price</th>
-                          <th className="text-end">Total</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -1123,16 +1121,6 @@ export default function PatientOrdersTab({ patient, userId: initialUserId }) {
                               <span className="badge bg-light text-dark border">
                                 {it.quantity}
                               </span>
-                            </td>
-                            <td className="text-end">
-                              {it.unitPrice > 0
-                                ? `${it.currencySymbol || quickViewOrder.currencySymbol || "Rs"} ${it.unitPrice}`
-                                : "—"}
-                            </td>
-                            <td className="text-end fw-bold">
-                              {it.total > 0
-                                ? `${it.currencySymbol || quickViewOrder.currencySymbol || "Rs"} ${it.total}`
-                                : "—"}
                             </td>
                           </tr>
                         ))}
