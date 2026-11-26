@@ -1,0 +1,863 @@
+/* =========================================================================
+   CreateOrder.css - Professional Enterprise CRM Order Creation
+   ========================================================================= */
+
+.create-order-container {
+  padding: 18px 20px 60px;
+  overflow-x: hidden;
+}
+
+/* Page Header */
+.create-order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.create-order-header h3 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px 0;
+}
+
+.create-order-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.create-order-breadcrumb a {
+  color: #0ba6df;
+  text-decoration: none;
+}
+
+/* Compact Patient & Delivery Bar */
+.order-patient-bar {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.order-patient-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+@media (max-width: 860px) {
+  .order-patient-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.patient-input-label {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.patient-select-ctrl {
+  height: 40px;
+  padding: 6px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #0f172a;
+  background-color: #ffffff;
+  outline: none;
+  width: 100%;
+}
+
+.patient-select-ctrl:focus {
+  border-color: #0ba6df;
+  box-shadow: 0 0 0 2px rgba(11, 166, 223, 0.15);
+}
+
+/* Unified Patient Searchable Select */
+.patient-searchable-select {
+  position: relative;
+  width: 100%;
+}
+
+.patient-searchable-control {
+  height: 42px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.patient-searchable-control:hover {
+  border-color: #94a3b8;
+}
+
+.patient-searchable-control.is-focused {
+  border-color: #0ba6df;
+  box-shadow: 0 0 0 3px rgba(11, 166, 223, 0.15);
+}
+
+.patient-search-icon {
+  color: #94a3b8;
+  font-size: 13px;
+  margin-right: 8px;
+  pointer-events: none;
+}
+
+.patient-search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 13.5px;
+  color: #0f172a;
+  padding: 0;
+  cursor: text;
+}
+
+.patient-search-clear {
+  border: none;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 18px;
+  line-height: 1;
+  padding: 0 6px;
+  cursor: pointer;
+}
+
+.patient-search-clear:hover {
+  color: #475569;
+}
+
+.patient-select-chevron {
+  color: #64748b;
+  font-size: 11px;
+  margin-left: 8px;
+  pointer-events: none;
+}
+
+.patient-searchable-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  z-index: 1050;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.patient-dropdown-empty {
+  padding: 12px 16px;
+  font-size: 13px;
+  color: #94a3b8;
+  text-align: center;
+}
+
+.patient-dropdown-list {
+  padding: 4px 0;
+}
+
+.patient-dropdown-option {
+  padding: 9px 14px;
+  font-size: 13.5px;
+  color: #1e293b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background-color 0.15s ease;
+}
+
+.patient-dropdown-option:hover {
+  background-color: #f8fafc;
+}
+
+.patient-dropdown-option:hover .patient-option-name {
+  color: #0ba6df;
+}
+
+.patient-dropdown-option.selected {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-weight: 600;
+}
+
+.patient-option-name {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patient-subinfo {
+  font-size: 12px;
+  color: #059669;
+  margin-top: 6px;
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Main Grid: Content + Summary */
+.order-workspace-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+@media (max-width: 1040px) {
+  .order-workspace-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Main Card */
+.order-content-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+  overflow: visible;
+}
+
+/* Clean CRM Tab Navigation with Zero Scroll Trapping */
+.order-tabs-header {
+  display: flex;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  flex-wrap: wrap;
+  overflow: visible;
+}
+
+.order-tabs-header::-webkit-scrollbar,
+.order-content-card::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.order-tab-item {
+  padding: 12px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #64748b;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s ease;
+}
+
+.order-tab-item:hover {
+  color: #0ba6df;
+}
+
+.order-tab-item.active {
+  color: #0ba6df;
+  border-bottom: 2px solid #0ba6df;
+  background-color: #ffffff;
+  font-weight: 700;
+}
+
+.order-tab-count {
+  font-size: 11.5px;
+  font-weight: 700;
+  background-color: #e2e8f0;
+  color: #475569;
+  padding: 1px 7px;
+  border-radius: 10px;
+}
+
+.order-tab-item.active .order-tab-count {
+  background-color: #e0f2fe;
+  color: #0284c7;
+}
+
+.order-tab-body {
+  padding: 20px;
+}
+
+/* Sub-pills under Cart */
+.cart-filter-pills {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill-group {
+  display: inline-flex;
+  background-color: #f1f5f9;
+  padding: 3px;
+  border-radius: 8px;
+}
+
+.pill-btn {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pill-btn.active {
+  background-color: #ffffff;
+  color: #0ba6df;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.cart-action-links {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-crm-sm {
+  height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.btn-crm-sm.primary {
+  background-color: #0ba6df;
+  color: #ffffff;
+  border: 1px solid #0ba6df;
+}
+
+.btn-crm-sm.outline {
+  background-color: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.btn-crm-sm.outline:hover {
+  border-color: #0ba6df;
+  color: #0ba6df;
+}
+
+.btn-empty-cart {
+  height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  background-color: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+  transition: all 0.15s ease;
+}
+
+.btn-empty-cart:hover {
+  background-color: #ffe4e6;
+  color: #be123c;
+  border-color: #fda4af;
+}
+
+/* Tables */
+.crm-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.crm-table th {
+  background-color: #f8fafc;
+  color: #475569;
+  font-size: 12.5px;
+  font-weight: 700;
+  padding: 10px 14px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.crm-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.med-thumb {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+}
+
+/* Stepper */
+.qty-stepper {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.qty-btn {
+  background: #f8fafc;
+  border: none;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+  font-weight: 700;
+  color: #475569;
+}
+
+.qty-val {
+  width: 30px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Prescribed Items Cards */
+.prescribed-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 14px;
+}
+
+.prescribed-item-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 3px solid #10b981;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.prescribed-thumb-img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 8px;
+}
+
+/* Catalog Grid */
+.catalog-search-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+
+.catalog-search-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 8px 14px 8px 38px;
+  font-size: 13.5px;
+  outline: none;
+}
+
+.catalog-search-input:focus {
+  border-color: #0ba6df;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.catalog-item-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.catalog-item-card:hover {
+  border-color: #0ba6df;
+}
+
+/* Upload Tab */
+.upload-pills {
+  display: inline-flex;
+  background-color: #f1f5f9;
+  padding: 3px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.upload-pill-btn {
+  border: none;
+  background: transparent;
+  padding: 7px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.upload-pill-btn.active {
+  background-color: #0ba6df;
+  color: #ffffff;
+}
+
+.upload-pill-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 1px 7px;
+  min-width: 18px;
+}
+
+.upload-pill-btn:not(.active) .upload-pill-badge {
+  background-color: #0ba6df;
+  color: #ffffff;
+}
+
+.upload-alert-strip {
+  background-color: #eaf4ff;
+  border: 1px solid #c7e1ff;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: #0369a1;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.upload-card-wrapper {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+
+.upload-drop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 600px) {
+  .upload-drop-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dropzone-box {
+  background-color: #f8fafc;
+  border: 1.5px dashed #cbd5e1;
+  border-radius: 8px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.15s ease;
+}
+
+.dropzone-box:hover {
+  border-color: #0ba6df;
+  background-color: #f0f9ff;
+}
+
+.dropzone-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.dropzone-remove-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+/* Order Summary Panel */
+.order-summary-box {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.summary-heading {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 0;
+  font-size: 13px;
+  color: #64748b;
+  border-bottom: 1px dashed #f1f5f9;
+}
+
+.summary-row.total {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  border-top: 1px solid #e2e8f0;
+  border-bottom: none;
+  padding-top: 12px;
+  margin-top: 8px;
+}
+
+.total-val {
+  color: #0ba6df;
+  font-size: 18px;
+}
+
+.summary-address-preview {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 14px 0;
+  font-size: 12px;
+  color: #334155;
+}
+
+.btn-place-order-main {
+  width: 100%;
+  height: 44px;
+  background-color: #10b981;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14.5px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s ease;
+}
+
+.btn-place-order-main:hover {
+  background-color: #059669;
+}
+
+.btn-place-order-main:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* =========================================================================
+   ADD DELIVERY ADDRESS MODAL & ADDRESS CONTROLS
+   ========================================================================= */
+
+.crm-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  z-index: 1060;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: crmFadeIn 0.2s ease-out;
+}
+
+.crm-modal-dialog {
+  background: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 540px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.crm-modal-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f8fafc;
+}
+
+.crm-modal-header h5 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.crm-modal-close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 4px;
+  line-height: 1;
+}
+
+.crm-modal-close-btn:hover {
+  color: #0f172a;
+}
+
+.crm-modal-body {
+  padding: 20px;
+  max-height: 75vh;
+  overflow-y: auto;
+}
+
+.crm-modal-footer {
+  padding: 14px 20px;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  background-color: #f8fafc;
+}
+
+.address-info-callout {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12.5px;
+  color: #166534;
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.address-inline-box {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin-top: 8px;
+}
+
+/* =========================================================================
+   WRITTEN MEDICINES SECTION
+   ========================================================================= */
+
+.written-med-badge {
+  background-color: #e0f2fe;
+  color: #0369a1;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+}
+
+.written-med-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background-color: #f0f9ff;
+  border: 1px solid #e0f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #0ba6df;
+  font-size: 18px;
+}
+
+@keyframes crmFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

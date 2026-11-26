@@ -1,0 +1,424 @@
+.cfu-container {
+  width: 100%;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  font-family: inherit;
+}
+
+.cfu-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.cfu-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cfu-required {
+  color: #ef4444;
+  font-weight: bold;
+}
+
+.cfu-count-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #0284c7;
+  background-color: #e0f2fe;
+  padding: 2px 8px;
+  border-radius: 12px;
+  border: 1px solid #bae6fd;
+}
+
+/* Action Buttons Bar */
+.cfu-actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.cfu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  user-select: none;
+  touch-action: manipulation;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.cfu-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Upload Button Style */
+.cfu-btn-upload {
+  background-color: #f8fafc;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+.cfu-btn-upload:hover:not(:disabled) {
+  background-color: #e2e8f0;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.cfu-btn-upload i {
+  color: #0284c7;
+  font-size: 14px;
+}
+
+/* Camera Button Style - Vibrant and prominent for Tab / Mobile */
+.cfu-btn-camera {
+  background: linear-gradient(135deg, #0d9488 0%, #0284c7 100%);
+  color: #ffffff;
+  border-color: transparent;
+}
+
+.cfu-btn-camera:hover:not(:disabled) {
+  background: linear-gradient(135deg, #0f766e 0%, #0369a1 100%);
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.25);
+  transform: translateY(-1px);
+}
+
+.cfu-btn-camera:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.cfu-btn-camera i {
+  color: #ffffff;
+  font-size: 14px;
+}
+
+/* Helper Text */
+.cfu-helper-text {
+  font-size: 11.5px;
+  color: #64748b;
+  margin-top: 5px;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+/* Previews Grid / List */
+.cfu-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.cfu-preview-card {
+  position: relative;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+
+.cfu-preview-card:hover {
+  border-color: #94a3b8;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+.cfu-thumb-container {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+  background-color: #f1f5f9;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+}
+
+.cfu-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.2s ease;
+}
+
+.cfu-thumb-container:hover .cfu-thumb-img {
+  transform: scale(1.04);
+}
+
+.cfu-file-icon {
+  font-size: 36px;
+  color: #64748b;
+}
+
+.cfu-file-icon.pdf {
+  color: #dc2626;
+}
+
+.cfu-file-icon.doc {
+  color: #2563eb;
+}
+
+.cfu-preview-meta {
+  width: 100%;
+  margin-top: 6px;
+  text-align: center;
+}
+
+.cfu-preview-name {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: block;
+}
+
+.cfu-preview-sub {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 2px;
+}
+
+.cfu-preview-size {
+  font-size: 10px;
+  color: #64748b;
+}
+
+.cfu-badge-photo {
+  font-size: 9.5px;
+  padding: 1px 4px;
+  border-radius: 4px;
+  background-color: #ccfbf1;
+  color: #0f766e;
+  font-weight: 600;
+}
+
+.cfu-btn-remove {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: #ef4444;
+  color: #ffffff !important;
+  border: 1.5px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 11px;
+  line-height: 1;
+  padding: 0;
+  transition: all 0.15s ease;
+  z-index: 3;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.25);
+}
+
+.cfu-btn-remove i {
+  color: #ffffff !important;
+  font-size: 11px;
+  background: none !important;
+  padding: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  line-height: 1;
+}
+
+.cfu-btn-remove:hover {
+  background-color: #dc2626;
+  transform: scale(1.12);
+  box-shadow: 0 3px 8px rgba(220, 38, 38, 0.4);
+}
+
+/* Lightbox Modal for Photo Preview */
+.cfu-lightbox-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+  backdrop-filter: blur(3px);
+}
+
+.cfu-lightbox-content {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cfu-lightbox-img {
+  max-width: 100%;
+  max-height: 82vh;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4);
+  object-fit: contain;
+}
+
+.cfu-lightbox-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 26px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.cfu-lightbox-caption {
+  color: #f1f5f9;
+  font-size: 13px;
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* Desktop Webcam Capture Modal */
+.cfu-webcam-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(15, 23, 42, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 99999;
+  padding: 16px;
+  backdrop-filter: blur(2px);
+}
+
+.cfu-webcam-modal {
+  background-color: #ffffff;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 580px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.cfu-webcam-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.cfu-webcam-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cfu-webcam-title i {
+  color: #0284c7;
+}
+
+.cfu-webcam-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: #64748b;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.cfu-webcam-close:hover {
+  color: #0f172a;
+  background-color: #e2e8f0;
+}
+
+.cfu-webcam-body {
+  padding: 16px;
+  background-color: #090d16;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+}
+
+.cfu-webcam-video {
+  width: 100%;
+  max-height: 400px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.cfu-webcam-snapshot {
+  width: 100%;
+  max-height: 400px;
+  border-radius: 6px;
+  object-fit: cover;
+}
+
+.cfu-webcam-error {
+  color: #fca5a5;
+  text-align: center;
+  padding: 24px;
+  font-size: 14px;
+}
+
+.cfu-webcam-footer {
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  background-color: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* Responsive adjustment for Mobile / Tab screens */
+@media (max-width: 576px) {
+  .cfu-actions-bar {
+    gap: 8px;
+  }
+  .cfu-btn {
+    flex: 1 1 45%;
+    padding: 9px 12px;
+    font-size: 12px;
+  }
+  .cfu-preview-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

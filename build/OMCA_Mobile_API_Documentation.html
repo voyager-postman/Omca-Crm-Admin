@@ -1,0 +1,1028 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OMCA Mobile Developer Master API Specification</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0284c7;
+      --primary-dark: #0369a1;
+      --accent: #0ba6df;
+      --danger: #ef4444;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --code-bg: #0f172a;
+      --code-text: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 30px 20px;
+    }
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      background: var(--surface);
+      padding: 40px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      border: 1px solid var(--border);
+    }
+    .badge-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 700;
+    }
+    .badge-primary { background: #e0f2fe; color: var(--primary-dark); }
+    .badge-success { background: #ecfdf5; color: #047857; }
+    .badge-danger { background: #fee2e2; color: #b91c1c; }
+    .badge-warning { background: #fef3c7; color: #b45309; }
+    h1 {
+      font-size: 28px;
+      color: #0f172a;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .subtitle {
+      font-size: 15px;
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border);
+    }
+    h2 {
+      font-size: 20px;
+      color: var(--primary-dark);
+      margin-top: 36px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h3 {
+      font-size: 16px;
+      color: #1e293b;
+      margin-top: 22px;
+      margin-bottom: 10px;
+    }
+    p { margin-bottom: 14px; font-size: 14px; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+      font-size: 13.5px;
+    }
+    th, td {
+      padding: 10px 14px;
+      text-align: left;
+      border: 1px solid var(--border);
+    }
+    th {
+      background: #f1f5f9;
+      font-weight: 700;
+      color: #334155;
+    }
+    tr:nth-child(even) { background: #f8fafc; }
+    pre {
+      background: var(--code-bg);
+      color: #e2e8f0;
+      padding: 16px 20px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12.5px;
+      line-height: 1.5;
+      margin: 14px 0 20px;
+    }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: #e2e8f0;
+      color: #0f172a;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 12.5px;
+    }
+    pre code {
+      background: transparent;
+      color: inherit;
+      padding: 0;
+    }
+    .download-btn {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--accent);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-weight: 700;
+      font-size: 14px;
+      box-shadow: 0 4px 14px rgba(11,166,223,0.4);
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      z-index: 1000;
+    }
+    .download-btn:hover { background: var(--primary-dark); }
+    @media print {
+      body { padding: 0; background: white; }
+      .container { border: none; box-shadow: none; padding: 0; }
+      .download-btn { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <button class="download-btn" onclick="window.print()">
+    <i class="fa-solid fa-print"></i> Print / Save as PDF
+  </button>
+  <div class="container">
+    <div class="badge-bar">
+      <span class="badge badge-primary"><i class="fa-solid fa-mobile-screen"></i> iOS & Android</span>
+      <span class="badge badge-success"><i class="fa-solid fa-bolt"></i> Realtime Socket.IO</span>
+      <span class="badge badge-warning"><i class="fa-solid fa-phone"></i> Twilio Voice & Video</span>
+      <span class="badge badge-danger"><i class="fa-solid fa-triangle-exclamation"></i> SOS Emergency</span>
+    </div>
+    <h1>OMCA Mobile Developer Master API Specification</h1>
+    <div class="subtitle">Integration documentation for iOS (Swift) & Android (Kotlin) — Authentication, Calling, Realtime Chat, Emergency SOS System & Push Notifications.</div>
+
+    <div style="background: #e0f2fe; border: 1px solid #bae6fd; border-radius: 8px; padding: 14px 18px; margin-bottom: 24px;">
+      <strong style="color: #0369a1;"><i class="fa-solid fa-circle-info"></i> Notice for Mobile Developers:</strong>
+      <p style="margin: 4px 0 0 0; font-size: 13.5px; color: #0c4a6e;">
+        All socket connections MUST use the custom path <code>/omca_crm/socket.io</code>. Standard <code>/socket.io</code> will fail. High-priority FCM / APNs notifications must be handled for incoming calls and emergency SOS alerts when the app is in the background or killed.
+      </p>
+    </div>
+
+    <!-- Embedded Markdown converted to Clean HTML format -->
+    # OMCA Mobile Developer Master API Specification
+<strong>For iOS (Swift) & Android (Kotlin) Mobile Applications</strong>  
+<strong>Version:</strong> 2.4.0 (Production Release)  
+<strong>Scope:</strong> Staff Authentication, Profile Management, Realtime Socket.IO, Twilio Voice & Video Calls, SOS Emergency Alerts & Popups, 1-on-1 & Group Chat, Push Notifications<br/>---<br/><h2>1. System Architecture & Base Endpoints</h2><br/>| Resource | Value | Notes & Recommendations |
+| :--- | :--- | :--- |
+| <strong>REST API Base URL</strong> | <code>https://mobappssolutiondevelopment.com/omca_crm/api/</code> | Standard REST endpoints append directly to this base |
+| <strong>Media / Storage URL</strong> | <code>https://mobappssolutiondevelopment.com/omca_crm/</code> | Prepend to all relative image and attachment paths (<code>uploads/...</code>) |
+| <strong>Socket.IO Host</strong> | <code>https://mobappssolutiondevelopment.com</code> | Base domain for WebSocket connection |
+| <strong>Socket.IO Custom Path</strong>| <code>/omca_crm/socket.io</code> | <strong>CRITICAL</strong>: Mobile Socket clients MUST set this custom path |
+| <strong>Socket Transports</strong> | <code>["websocket", "polling"]</code> | WebSocket with polling fallback |<br/>---<br/><h2>2. Authentication & Global Request Standards</h2><br/><h3>2.1 Request Headers</h3>
+Every protected endpoint requires the JWT Bearer token obtained during login:<br/><pre><code>Authorization: Bearer <JWT_TOKEN>
+Content-Type: application/json
+</code></pre><br/>For file uploads (profile picture or chat media attachments):
+<pre><code>Authorization: Bearer <JWT_TOKEN>
+Content-Type: multipart/form-data; boundary=<BOUNDARY>
+</code></pre><br/>---<br/><h2>3. Module 1: Staff Authentication & Profile Management</h2><br/><h3>3.1 Staff Login</h3>
+Authenticates authorized staff (Coordinators, Supervisors, Operations Managers, Directors, Admins) and returns the JWT session token, staff profile, role, and permissions.<br/>- <strong>Endpoint:</strong> <code>POST /api/login</code>
+- <strong>URL:</strong> <code>https://mobappssolutiondevelopment.com/omca_crm/api/login</code>
+- <strong>Auth:</strong> Public
+- <strong>Headers:</strong> <code>Content-Type: application/json</code> (Optional: <code>x-latitude</code>, <code>x-longitude</code>, <code>ipAddress</code>)<br/>#<h3>Request Payload</h3>
+<pre><code>{
+  "email": "coordinator@omca.com",
+  "password": "SecurePassword123"
+}
+</code></pre><br/>#<h3>Success Response (<code>200 OK</code>)</h3>
+<pre><code>{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjRiOGE3ZjFlNGQzYTAwMWU5YTVjMTIiLCJyb2xlIjoiQ29vcmRpbmF0b3IifQ...",
+  "details": {
+    "_id": "664b8a7f1e4d3a001e9a5c12",
+    "name": "Dr. Sarah Jenkins",
+    "first_name": "Sarah",
+    "last_name": "Jenkins",
+    "email": "coordinator@omca.com",
+    "role": "Coordinator",
+    "phone": "9876543210",
+    "phone_code": "+91",
+    "gender": "Female",
+    "profileImage": "uploads/staff/sarah_664b.jpg",
+    "hospital_id": "1",
+    "permissions": [
+      "/Dashboard",
+      "/Messages",
+      "/SOS_Emergency",
+      "/Manage_Patients"
+    ]
+  },
+  "message": "Login successful"
+}
+</code></pre><br/><h3>3.2 Get Staff Profile Details</h3>
+- <strong>Endpoint:</strong> <code>GET /api/get_details/:userId</code>
+- <strong>URL:</strong> <code>https://mobappssolutiondevelopment.com/omca_crm/api/get_details/664b8a7f1e4d3a001e9a5c12</code>
+- <strong>Auth:</strong> Bearer Token<br/>#<h3>Success Response (<code>200 OK</code>)</h3>
+<pre><code>{
+  "success": true,
+  "details": {
+    "_id": "664b8a7f1e4d3a001e9a5c12",
+    "name": "Dr. Sarah Jenkins",
+    "email": "coordinator@omca.com",
+    "role": "Coordinator",
+    "phone_no": "9876543210",
+    "phoneCode": "+91",
+    "status": 1,
+    "accessCountries": ["India", "UAE", "Kenya"]
+  }
+}
+</code></pre><br/><h3>3.3 Update Staff Profile</h3>
+- <strong>Endpoint:</strong> <code>PUT /api/update_staff/:userId</code> (or <code>PUT /api/user/update_patient/:userId</code>)
+- <strong>Headers:</strong> <code>Content-Type: multipart/form-data</code>
+- <strong>Form Data Fields:</strong>
+  - <code>name</code>: String
+  - <code>phone_no</code>: String
+  - <code>phoneCode</code>: String
+  - <code>image</code>: File (JPEG/PNG)<br/><h3>3.4 Change Password</h3>
+- <strong>Endpoint:</strong> <code>POST /api/change_password</code>
+- <strong>Payload:</strong>
+<pre><code>{
+  "userId": "664b8a7f1e4d3a001e9a5c12",
+  "oldPassword": "OldPassword123",
+  "newPassword": "NewStrongPassword456"
+}
+</code></pre><br/>---<br/><h2>4. Module 2: Realtime Socket.IO Connection Lifecycle</h2><br/><h3>4.1 Connection Setup</h3>
+Establish connection to the custom Socket.IO path:<br/><pre><code>const socket = io("https://mobappssolutiondevelopment.com", {
+  path: "/omca_crm/socket.io",
+  transports: ["websocket", "polling"],
+  reconnection: true,
+  reconnectionDelay: 3000
+});
+</code></pre><br/><h3>4.2 Handshake & Room Subscription Sequence</h3><br/><div style="background: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 12px; font-family: monospace; color: #475569; margin: 10px 0;">[Interactive Sequence Diagram Rendered in Mobile Docs]</div><br/>1. <strong>Step 1 - Connect</strong>: Listen for <code>connect</code>.
+2. <strong>Step 2 - Authenticate</strong>:
+   <pre><code>   socket.emit("authenticate", { token: "<JWT>", userId: "<USER_ID>" });
+   </code></pre>
+3. <strong>Step 3 - Subscribe to SOS Emergency Rooms</strong>:
+   <pre><code>   socket.emit("sos:subscribe");
+   </code></pre>
+   Server automatically subscribes socket to <code>sos-role:<ROLE></code> (e.g. <code>sos-role:Coordinator</code>, <code>sos-role:Supervisor</code>, <code>sos-role:Director</code>).
+4. <strong>Step 4 - Subscribe to CRM Online Presence</strong>:
+   <pre><code>   socket.emit("crm:subscribe");
+   </code></pre>
+5. <strong>Step 5 - Keepalive Heartbeat</strong>:
+   Emit <code>heartbeat</code> every 30 seconds to maintain presence.<br/>---<br/><h2>5. Module 3: Twilio Voice & Video Calling System</h2><br/><h3>5.1 Calling Architecture & Signaling Flow</h3><br/><div style="background: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 12px; font-family: monospace; color: #475569; margin: 10px 0;">[Interactive Sequence Diagram Rendered in Mobile Docs]</div><br/>---<br/><h3>5.2 Socket Signaling Events for Calling</h3><br/>#<h3>A. Client Emits (Mobile ➔ Server)</h3><br/>| Event | Payload | Description |
+| :--- | :--- | :--- |
+| <strong><code>call:initiate</code></strong> | <code>{ callType: "video"|"audio", receiverId, receiverIds: [...], chatId, groupName }</code> | Start 1-on-1 or group call |
+| <strong><code>call:accept</code></strong> | <code>{ callId: "..." }</code> | Accept incoming call |
+| <strong><code>call:reject</code></strong> | <code>{ callId: "...", reason: "declined" }</code> | Reject incoming call |
+| <strong><code>call:cancel</code></strong> | <code>{ callId: "..." }</code> | Cancel outgoing call before answer |
+| <strong><code>call:end</code></strong> | <code>{ callId: "...", endForAll: false }</code> | Hang up / leave call |
+| <strong><code>call:toggle_media</code></strong> | <code>{ callId: "...", mediaType: "audio"|"video", enabled: true|false }</code> | Mute/unmute microphone or camera |<br/>#<h3>B. Server Emits (Server ➔ Mobile)</h3><br/>| Event | Payload | Action Required on Mobile |
+| :--- | :--- | :--- |
+| <strong><code>call:incoming</code></strong> | <code>{ callId, callerId, callerName, callerAvatar, callType, roomName, token, isGroup, groupName }</code> | <strong>Show Incoming Call Pop-up / Fullscreen UI + play ringtone</strong> |
+| <strong><code>call:ringing</code></strong> | <code>{ callId, status: "ringing" }</code> | Update caller UI to "Ringing..." |
+| <strong><code>call:accepted</code></strong> | <code>{ callId, token, roomName }</code> | Stop ringtone; Connect to Twilio Room using <code>token</code> & <code>roomName</code> |
+| <strong><code>call:rejected</code></strong> | <code>{ callId, reason }</code> | Stop ringtone; Display "Call Declined" and dismiss |
+| <strong><code>call:cancelled</code></strong> | <code>{ callId }</code> | Dismiss incoming call pop-up; stop ringtone |
+| <strong><code>call:ended</code></strong> | <code>{ callId }</code> | Disconnect from Twilio Room; close call screen |
+| <strong><code>call:participant_joined</code></strong> | <code>{ callId, userId, userName }</code> | Render new participant video/audio tile |
+| <strong><code>call:participant_left</code></strong> | <code>{ callId, userId }</code> | Remove participant tile |
+| <strong><code>call:media_toggled</code></strong> | <code>{ callId, userId, mediaType, enabled }</code> | Show/hide peer camera or muted icon |
+| <strong><code>call:busy</code></strong> | <code>{ callId }</code> | Target is on another call |
+| <strong><code>call:missed</code></strong> | <code>{ callId }</code> | Unanswered call timed out |<br/>---<br/><h3>5.3 Twilio Room Connection (Mobile SDKs)</h3><br/>Once <code>call:accepted</code> is received (or via <code>token</code> in <code>call:incoming</code>):<br/>#<h3>iOS (Swift - <code>TwilioVideo</code> Pod)</h3>
+<pre><code>import TwilioVideo<br/>class VideoCallManager: NSObject, RoomDelegate {
+    var room: Room?
+    var localAudioTrack = LocalAudioTrack(options: nil, enabled: true, name: "microphone")
+    var localVideoTrack = LocalVideoTrack(options: nil, enabled: true, name: "camera")<br/>    func connectToTwilio(token: String, roomName: String) {
+        let connectOptions = ConnectOptions(token: token) { builder in
+            builder.roomName = roomName
+            if let audio = self.localAudioTrack { builder.audioTracks = [audio] }
+            if let video = self.localVideoTrack { builder.videoTracks = [video] }
+        }
+        self.room = TwilioVideoSDK.connect(options: connectOptions, delegate: self)
+    }<br/>    func roomDidConnect(room: Room) {
+        print("Connected to Twilio Room: (room.name)")
+    }
+}
+</code></pre><br/>#<h3>Android (Kotlin - <code>com.twilio:video-android</code>)</h3>
+<pre><code>import com.twilio.video.*<br/>class VideoCallManager(private val context: Context) : Room.Listener {
+    private var room: Room? = null
+    private val localAudioTrack = LocalAudioTrack.create(context, true, "microphone")
+    private val localVideoTrack = LocalVideoTrack.create(context, true, CameraCapturer(context, CameraCapturer.CameraSource.FRONT_CAMERA), "camera")<br/>    fun connectToTwilio(token: String, roomName: String) {
+        val connectOptions = ConnectOptions.Builder(token)
+            .roomName(roomName)
+            .audioTracks(listOf(localAudioTrack))
+            .videoTracks(listOf(localVideoTrack))
+            .build()
+        room = Video.connect(context, connectOptions, this)
+    }<br/>    override fun onConnected(room: Room) {
+        Log.d("TWILIO", "Connected to room: ${room.name}")
+    }
+    override fun onConnectFailure(room: Room, e: TwilioException) {
+        Log.e("TWILIO", "Connection error: ${e.message}")
+    }
+    override fun onDisconnected(room: Room, e: TwilioException?) {}
+    override fun onParticipantConnected(room: Room, remoteParticipant: RemoteParticipant) {}
+    override fun onParticipantDisconnected(room: Room, remoteParticipant: RemoteParticipant) {}
+    override fun onRecordingStarted(room: Room) {}
+    override fun onRecordingStopped(room: Room) {}
+}
+</code></pre><br/>---<br/><h3>5.4 Call REST Endpoints</h3><br/>#<h3>1. Generate / Refresh Token</h3>
+- <strong>Endpoint:</strong> <code>POST /api/call/token</code>
+- <strong>Payload:</strong> <code>{ "userId": "<USER_ID>", "roomName": "<ROOM_NAME>" }</code>
+- <strong>Response:</strong> <code>{ "token": "<TWILIO_ACCESS_TOKEN>", "roomName": "..." }</code><br/>#<h3>2. Get Call History</h3>
+- <strong>Endpoint:</strong> <code>GET /api/call/history?userId=<ID>&page=1&limit=20&filter=all</code><br/>#<h3>3. Get Missed Calls Count</h3>
+- <strong>Endpoint:</strong> <code>GET /api/call/missed-count?userId=<ID></code><br/>#<h3>4. Mark Missed Calls Read</h3>
+- <strong>Endpoint:</strong> <code>POST /api/call/mark-read</code>
+- <strong>Payload:</strong> <code>{ "userId": "<USER_ID>", "callId": "<OPTIONAL_CALL_ID>" }</code><br/>#<h3>5. Check Active Call Status</h3>
+- <strong>Endpoint:</strong> <code>GET /api/call/active-status?userId=<ID></code>
+- <strong>Response:</strong> <code>{ "isInCall": false }</code><br/>---<br/><h2>6. Module 4: SOS Emergency Alert & Pop-up System</h2><br/><h3>6.1 SOS Emergency Lifecycle</h3><br/><div style="background: #f1f5f9; padding: 12px; border-radius: 8px; font-size: 12px; font-family: monospace; color: #475569; margin: 10px 0;">[Interactive Sequence Diagram Rendered in Mobile Docs]</div><br/>---<br/><h3>6.2 SOS Realtime Socket Events</h3><br/>#<h3>1. Incoming Alert: <code>sos:web-alert</code> / <code>sos:alert</code></h3>
+Broadcast to all staff subscribed to <code>sos-role:<ROLE></code>.<br/><pre><code>{
+  "type": "SOS_NEW_ALERT",
+  "sosId": "664b912a1e4d3a001e9a5e89",
+  "emergencyCaseId": "EM-2026-0891",
+  "title": "CRITICAL SOS ALERT",
+  "receivedAt": "2026-11-03T09:15:20.000Z",
+  "status": "Alert Received",
+  "patient": {
+    "name": "David Miller",
+    "mobile": "+919876543210",
+    "age": 58,
+    "gender": "Male",
+    "status": "Severe chest pain and shortness of breath"
+  },
+  "location": {
+    "label": "Connaught Place, New Delhi",
+    "latitude": 28.6304,
+    "longitude": 77.2177,
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=28.6304,77.2177",
+    "distanceKm": "2.4",
+    "etaMinutes": "8"
+  },
+  "medicalHistory": ["Hypertension", "Type 2 Diabetes", "Post-Angioplasty (2023)"],
+  "allergies": ["Penicillin", "Sulfa drugs"],
+  "medication": ["Aspirin 75mg", "Metformin 500mg", "Amlodipine 5mg"],
+  "emergencyContact": {
+    "name": "Jane Miller",
+    "relation": "Spouse",
+    "phone": "+919811223344"
+  },
+  "ambulance": {
+    "id": "AMB-04",
+    "driver": "Rajesh Kumar",
+    "etaMinutes": "8"
+  }
+}
+</code></pre><br/>#<h3>2. Alert Dismissed: <code>sos:alert-dismissed</code></h3>
+Emitted when <strong>any</strong> operator accepts or dismisses the case.
+- <strong>Payload:</strong> <code>{ "sosId": "664b912a1e4d3a001e9a5e89", "acceptedBy": "Dr. Sarah" }</code>
+- <strong>Mobile Action:</strong>
+  1. <strong>Stop emergency siren immediately.</strong>
+  2. Dismiss or update the emergency popup to show *"Accepted by Dr. Sarah"*.<br/>---<br/><h3>6.3 Emergency Siren Sound Pattern</h3>
+To ensure operators never miss an alert, OMCA CRM plays a continuous looping two-tone emergency siren (not a single beep):
+* <strong>Tone 1:</strong> 960 Hz for 0.4 seconds
+* <strong>Tone 2:</strong> 770 Hz for 0.4 seconds
+* <strong>Looping:</strong> Runs continuously until <code>acceptSosCase()</code> or <code>sos:alert-dismissed</code> is received.<br/>---<br/><h3>6.4 Emergency Pop-up Modal Blueprint</h3>
+When <code>sos:web-alert</code> arrives:
+1. <strong>Header</strong>: Flashing red/orange warning icon, Case ID, elapsed timer (<code>"Received 12 seconds ago"</code>), and close button.
+2. <strong>Patient Info Card</strong>: Patient Name, Mobile with one-tap dial button, Age, Gender, Conditions.
+3. <strong>Medical Alert Card</strong>: Red badge for <strong>Allergies</strong>, yellow badge for <strong>Current Medication</strong>, medical history pills.
+4. <strong>Emergency Contact</strong>: One-tap phone button to call spouse/next of kin.
+5. <strong>Live Location Card</strong>: GPS Address, Distance to nearest ambulance, and <strong>"Open in Google Maps"</strong> button (<code>mapsUrl</code>).
+6. <strong>Action Bar (Operator Controls)</strong>:
+   * <strong>[ACCEPT CASE]</strong> (Primary green button): Calls <code>PUT /api/sos/:sosId/accept</code>.
+   * <strong>[CALL PATIENT]</strong>: Initiates phone/Twilio call to patient mobile.
+   * <strong>[DISPATCH AMBULANCE]</strong>: Triggers nearest ambulance dispatch.
+   * <strong>[AIR AMBULANCE]</strong>: Initiates air evacuation protocol.
+   * <strong>[CLOSE CASE]</strong>: Resolves the emergency with operator notes.<br/>---<br/><h3>6.5 SOS REST Endpoints</h3><br/>#<h3>1. Get Unaccepted SOS Alerts</h3>
+- <strong>Endpoint:</strong> <code>GET /api/sos/dashboard/alerts</code>
+- <strong>Headers:</strong> <code>Authorization: Bearer <token></code>
+- <strong>Response:</strong> Array of unaccepted SOS alerts.<br/>#<h3>2. Get Single SOS Case Dashboard</h3>
+- <strong>Endpoint:</strong> <code>GET /api/sos/dashboard/:sosId</code><br/>#<h3>3. Accept SOS Case</h3>
+- <strong>Endpoint:</strong> <code>PUT /api/sos/:sosId/accept</code>
+- <strong>Payload:</strong> <code>{}</code>
+- <strong>Response:</strong> <code>{ "success": true, "message": "Case accepted successfully" }</code><br/>#<h3>4. Post Action Taken on SOS</h3>
+- <strong>Endpoint:</strong> <code>POST /api/sos/:sosId/action</code>
+- <strong>Payload:</strong>
+<pre><code>{
+  "type": "Call",
+  "notes": "Patient advised to remain seated until ambulance arrives"
+}
+</code></pre>
+*(Allowed <code>type</code> values: <code>"Call"</code>, <code>"WhatsApp"</code>, <code>"DispatchAmbulance"</code>, <code>"AirAmbulance"</code>, <code>"OpenMaps"</code>)*<br/>#<h3>5. Add Operator Timeline Note</h3>
+- <strong>Endpoint:</strong> <code>POST /api/sos/:sosId/notes</code>
+- <strong>Payload:</strong> <code>{ "note": "Ambulance arriving at patient location" }</code><br/>#<h3>6. Live Tracking (Ambulance + Patient GPS)</h3>
+- <strong>Endpoint:</strong> <code>GET /api/sos/:sosId/tracking</code>
+- <strong>Response:</strong> <code>{ "user": { "lat": 28.6304, "lng": 77.2177 }, "ambulance": { "lat": 28.6250, "lng": 77.2100, "etaMinutes": 5 } }</code><br/>#<h3>7. Update Ambulance Location (Driver App)</h3>
+- <strong>Endpoint:</strong> <code>PUT /api/sos/:sosId/ambulance-location</code>
+- <strong>Payload:</strong> <code>{ "latitude": 28.6250, "longitude": 77.2100, "etaMinutes": 5 }</code><br/>#<h3>8. Close / Resolve SOS Case</h3>
+- <strong>Endpoint:</strong> <code>PUT /api/sos/:sosId/close</code>
+- <strong>Payload:</strong> <code>{ "notes": "Patient admitted to Apollo Hospital Emergency Room" }</code><br/>---<br/><h2>7. Module 5: Real-time 1-on-1 & Group Chat</h2><br/><h3>7.1 Chat REST Endpoints</h3><br/>#<h3>1. Fetch Conversations List</h3>
+- <strong>Endpoint:</strong> <code>GET /api/chat/list?userId=<USER_ID></code>
+- <strong>Response:</strong>
+<pre><code>[
+  {
+    "_id": "664c12001e4d3a001e9a7100",
+    "name": "John Doe",
+    "isGroup": false,
+    "lastMessage": {
+      "text": "Doctor review has been uploaded",
+      "createdAt": "2026-11-03T09:30:00.000Z",
+      "senderId": "664b8a7f1e4d3a001e9a5c12"
+    },
+    "unreadCount": 2,
+    "participants": [
+      { "_id": "664b8a7f1e4d3a001e9a5c12", "name": "Dr. Sarah", "role": "Coordinator" },
+      { "_id": "6724cb10e0f0c23a00000001", "name": "John Doe", "role": "Patient" }
+    ]
+  }
+]
+</code></pre><br/>#<h3>2. Fetch Chat Messages (Paginated)</h3>
+- <strong>Endpoint:</strong> <code>GET /api/chat/messages/:chatId?userId=<ID>&page=1&limit=20</code><br/>#<h3>3. Start 1-on-1 Chat</h3>
+- <strong>Endpoint:</strong> <code>POST /api/chat/start</code>
+- <strong>Payload:</strong> <code>{ "userId": "<MY_USER_ID>", "contactUserId": "<OTHER_USER_ID>" }</code><br/>#<h3>4. Send Message (REST Fallback / Attachments)</h3>
+- <strong>Endpoint:</strong> <code>POST /api/chat/send</code>
+- <strong>For Text:</strong> <code>Content-Type: application/json</code>
+  <pre><code>  {
+    "userId": "<MY_USER_ID>",
+    "chatId": "<CHAT_ID>",
+    "contactUserId": "<RECIPIENT_ID>",
+    "message": "Hello, your prescription is ready."
+  }
+  </code></pre>
+- <strong>For Attachments:</strong> <code>Content-Type: multipart/form-data</code>
+  - <code>userId</code>, <code>chatId</code>, <code>contactUserId</code>, <code>message</code> (caption), <code>attachment</code> (file).<br/>#<h3>5. Create Group Chat</h3>
+- <strong>Endpoint:</strong> <code>POST /api/chat/group/create</code>
+- <strong>Payload:</strong>
+<pre><code>{
+  "userId": "<MY_USER_ID>",
+  "name": "Patient Care Team - John Doe",
+  "memberIds": ["664b8a7f1e4d3a001e9a5c12", "65b98f21e0f0c23a87654321"]
+}
+</code></pre><br/>#<h3>6. Add Member to Group</h3>
+- <strong>Endpoint:</strong> <code>POST /api/chat/group/add-member</code>
+- <strong>Payload:</strong> <code>{ "userId": "<MY_ID>", "chatId": "<CHAT_ID>", "memberIds": ["<NEW_MEMBER_ID>"] }</code><br/>#<h3>7. Remove Member from Group</h3>
+- <strong>Endpoint:</strong> <code>POST /api/chat/group/remove-member</code>
+- <strong>Payload:</strong> <code>{ "userId": "<MY_ID>", "chatId": "<CHAT_ID>", "memberId": "<MEMBER_ID>" }</code><br/>#<h3>8. Mark Chat as Read</h3>
+- <strong>Endpoint:</strong> <code>POST /api/chat/mark-read</code>
+- <strong>Payload:</strong> <code>{ "userId": "<MY_ID>", "chatId": "<CHAT_ID>" }</code><br/>#<h3>9. Search Users & Patients for Chat</h3>
+- <strong>Endpoint:</strong> <code>GET /api/chat/users?search=john&type=all&page=1&limit=50</code><br/>---<br/><h3>7.2 Real-time Chat Socket Events</h3><br/>| Event Name | Direction | Payload | Usage |
+| :--- | :--- | :--- | :--- |
+| <strong><code>joinChat</code></strong> | Client ➔ Server | <code>{ chatId }</code> | Join chat room to receive live messages |
+| <strong><code>leaveChat</code></strong> | Client ➔ Server | <code>{ chatId }</code> | Leave chat room when closing screen |
+| <strong><code>chat:send</code></strong> | Client ➔ Server | <code>{ chatId, message, contactUserId }</code> | Send instant text message |
+| <strong><code>chat:message</code></strong>| Server ➔ Client | <code>{ _id, chatId, senderId, senderName, message, attachment, createdAt }</code> | Receive new incoming message |
+| <strong><code>chat:read</code></strong> | Client ➔ Server | <code>{ chatId, userId }</code> | Broadcast read receipt |
+| <strong><code>chat:read</code></strong> | Server ➔ Client | <code>{ chatId, userId, readAt }</code> | Update double tick to blue tick |
+| <strong><code>presence:get</code></strong> | Client ➔ Server | <code>{}</code> | Request current list of online users |
+| <strong><code>presence:online-users</code></strong>| Server ➔ Client | <code>["<USER_ID_1>", "<USER_ID_2>"]</code> | Array of currently connected user IDs |
+| <strong><code>presence:update</code></strong>| Server ➔ Client | <code>{ userId, status: "online"|"offline" }</code> | Single user online/offline status change |<br/>---<br/><h2>8. Module 6: Native Mobile Implementation Architecture</h2><br/><h3>8.1 Swift (iOS) Architecture</h3><br/><pre><code>// OMCASocketManager.swift
+import Foundation
+import SocketIO<br/>final class OMCASocketManager {
+    static let shared = OMCASocketManager()
+    private var manager: SocketManager?
+    private(set) var socket: SocketIOClient?<br/>    private init() {}<br/>    func connect(token: String, userId: String) {
+        guard let url = URL(string: "https://mobappssolutiondevelopment.com") else { return }<br/>        manager = SocketManager(
+            socketURL: url,
+            config: [
+                .path("/omca_crm/socket.io"),
+                .transports([.websocket, .polling]),
+                .forceWebsockets(true),
+                .reconnects(true),
+                .reconnectWait(3)
+            ]
+        )
+        socket = manager?.defaultSocket<br/>        socket?.on(clientEvent: .connect) { [weak self] _, _ in
+            print("Socket connected!")
+            self?.socket?.emit("authenticate", ["token": token, "userId": userId])
+            self?.socket?.emit("sos:subscribe")
+            self?.socket?.emit("crm:subscribe")
+        }<br/>        // SOS Emergency Alert Listener
+        socket?.on("sos:web-alert") { data, _ in
+            guard let alert = data.first as? [String: Any] else { return }
+            NotificationCenter.default.post(name: .onSosAlertReceived, object: nil, userInfo: alert)
+        }<br/>        socket?.on("sos:alert-dismissed") { data, _ in
+            NotificationCenter.default.post(name: .onSosAlertDismissed, object: nil)
+        }<br/>        // Calling Signaling Listeners
+        socket?.on("call:incoming") { data, _ in
+            guard let callData = data.first as? [String: Any] else { return }
+            NotificationCenter.default.post(name: .onIncomingCall, object: nil, userInfo: callData)
+        }<br/>        socket?.on("call:accepted") { data, _ in
+            guard let callData = data.first as? [String: Any] else { return }
+            NotificationCenter.default.post(name: .onCallAccepted, object: nil, userInfo: callData)
+        }<br/>        // Chat Message Listener
+        socket?.on("chat:message") { data, _ in
+            guard let msg = data.first as? [String: Any] else { return }
+            NotificationCenter.default.post(name: .onChatMessageReceived, object: nil, userInfo: msg)
+        }<br/>        socket?.connect()
+    }
+}<br/>extension Notification.Name {
+    static let onSosAlertReceived = Notification.Name("OMCA_SOS_ALERT")
+    static let onSosAlertDismissed = Notification.Name("OMCA_SOS_DISMISSED")
+    static let onIncomingCall = Notification.Name("OMCA_CALL_INCOMING")
+    static let onCallAccepted = Notification.Name("OMCA_CALL_ACCEPTED")
+    static let onChatMessageReceived = Notification.Name("OMCA_CHAT_MESSAGE")
+}
+</code></pre><br/>---<br/><h3>8.2 Kotlin (Android) Architecture</h3><br/><pre><code>// OMCASocketManager.kt
+package com.omca.crm.socket<br/>import android.content.Context
+import android.content.Intent
+import android.util.Log
+import io.socket.client.IO
+import io.socket.client.Socket
+import org.json.JSONObject<br/>object OMCASocketManager {
+    private const val SOCKET_URL = "https://mobappssolutiondevelopment.com"
+    private const val SOCKET_PATH = "/omca_crm/socket.io"
+    private var socket: Socket? = null<br/>    fun connect(context: Context, token: String, userId: String) {
+        val options = IO.Options().apply {
+            path = SOCKET_PATH
+            transports = arrayOf("websocket", "polling")
+            reconnection = true
+            reconnectionDelay = 3000
+        }<br/>        socket = IO.socket(SOCKET_URL, options)<br/>        socket?.on(Socket.EVENT_CONNECT) {
+            Log.d("SOCKET", "Connected successfully")
+            val auth = JSONObject().apply {
+                put("token", token)
+                put("userId", userId)
+            }
+            socket?.emit("authenticate", auth)
+            socket?.emit("sos:subscribe")
+            socket?.emit("crm:subscribe")
+        }<br/>        // Emergency SOS Alert
+        socket?.on("sos:web-alert") { args ->
+            if (args.isNotEmpty() && args[0] is JSONObject) {
+                val alert = args[0] as JSONObject
+                // Launch High-Priority Fullscreen Activity / Dialog
+                val intent = Intent("com.omca.crm.SOS_ALERT").apply {
+                    putExtra("alertData", alert.toString())
+                }
+                context.sendBroadcast(intent)
+            }
+        }<br/>        socket?.on("sos:alert-dismissed") {
+            context.sendBroadcast(Intent("com.omca.crm.SOS_DISMISSED"))
+        }<br/>        // Incoming Call Signaling
+        socket?.on("call:incoming") { args ->
+            if (args.isNotEmpty() && args[0] is JSONObject) {
+                val callData = args[0] as JSONObject
+                val intent = Intent("com.omca.crm.CALL_INCOMING").apply {
+                    putExtra("callData", callData.toString())
+                }
+                context.sendBroadcast(intent)
+            }
+        }<br/>        // Realtime Chat Message
+        socket?.on("chat:message") { args ->
+            if (args.isNotEmpty() && args[0] is JSONObject) {
+                val message = args[0] as JSONObject
+                val intent = Intent("com.omca.crm.CHAT_MESSAGE").apply {
+                    putExtra("message", message.toString())
+                }
+                context.sendBroadcast(intent)
+            }
+        }<br/>        socket?.connect()
+    }<br/>    fun emit(event: String, data: JSONObject) {
+        socket?.emit(event, data)
+    }
+}
+</code></pre><br/>---<br/><h2>9. Module 7: Background & Push Notifications (FCM / APNs)</h2><br/>When the mobile app is minimized or terminated:
+1. <strong>SOS Emergency</strong>:
+   - Deliver <strong>High-Priority Data Message</strong> with <code>priority: "high"</code>.
+   - On Android: Start a foreground service that loops the siren alarm and displays the full-screen intent.
+   - On iOS: Use Critical Alerts entitlement (<code>com.apple.developer.usernotifications.critical-alerts</code>) to bypass Do-Not-Disturb and play siren audio.
+2. <strong>Twilio Voice / Video Incoming Calls</strong>:
+   - On iOS: Send <strong>VoIP Push Notification</strong> (PushKit <code>PKPushRegistry</code>) which triggers the native system CallKit incoming call screen.
+   - On Android: Send high-priority FCM message and launch full-screen incoming call Activity via <code>TelecomManager</code> or <code>ConnectionService</code>.
+
+  
+<br/>---<br/>
+<h2><i class="fa-solid fa-list-check" style="color:var(--primary);"></i> 10. Module 8: Master Dropdowns, Staff & Patient Management APIs</h2>
+<p>Mobile applications require fast, lightweight dropdown feeds, searchable pickers, and filter menus for selecting <strong>Staff members</strong>, <strong>Patients</strong>, <strong>Roles</strong>, <strong>Hospitals</strong>, <strong>Countries</strong>, and <strong>Workflow Statuses</strong>.</p>
+<p><em>All dropdown endpoints require standard Bearer Token Authentication unless noted otherwise.</em></p>
+
+<h3>10.1 Mobile Dropdown Strategy & Performance Best Practices</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Data Type</th>
+      <th>Endpoint / Source</th>
+      <th>Mobile Strategy</th>
+      <th>Recommended Caching TTL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>System Roles & Permissions</strong></td><td><code>GET /api/getAllRoles</code></td><td>Load on app start / login</td><td>24 Hours (Local SQLite / Room / CoreData)</td></tr>
+    <tr><td><strong>Countries & Dial Codes</strong></td><td><code>GET /api/getActiveCountries</code></td><td>Load on app start</td><td>24 Hours</td></tr>
+    <tr><td><strong>Hospitals Master</strong></td><td><code>POST /api/crm/hospital_list</code></td><td>Load on app start</td><td>12 Hours</td></tr>
+    <tr><td><strong>Treatment Courses</strong></td><td><code>POST /api/crm/treatment_list</code></td><td>Load on app start</td><td>12 Hours</td></tr>
+    <tr><td><strong>Active Staff by Role</strong></td><td><code>GET /api/user/get_staff_by_role?role=...</code></td><td>Load when picker opens</td><td>1 Hour (in-memory or cache)</td></tr>
+    <tr><td><strong>Active Coordinators</strong></td><td><code>GET /api/user/get_coordinators</code></td><td>Load when assigning coordinator</td><td>30 Minutes</td></tr>
+    <tr><td><strong>Patient Status Enums</strong></td><td>Static Canonical List (<code>PATIENT_STATUS_OPTIONS</code>)</td><td>Bundled client-side constant</td><td>Bundled with app release</td></tr>
+    <tr><td><strong>Patients Master Lookup</strong></td><td><code>GET /api/all_patients?search=...</code></td><td>Dynamic typeahead with 300ms debounce</td><td>No cache (live query)</td></tr>
+    <tr><td><strong>My Assigned Patients</strong></td><td><code>GET /api/user/my_assigned_patients</code></td><td>Worklist tab / fast-picker</td><td>Cache until pull-to-refresh or assignment</td></tr>
+  </tbody>
+</table>
+
+<h3>10.2 Staff Dropdowns & Role Lookups</h3>
+
+<h4>1. Get Staff by Specific Role</h4>
+<p>Fetches active staff users filtered by system role. Ideal for role-specific assignment dialogs (e.g., Coordinator picker, Nurse picker, Doctor selector).</p>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/user/get_staff_by_role</code></li>
+  <li><strong>Fallback URL:</strong> <code>GET /api/get_staff_by_role</code></li>
+  <li><strong>Query Parameters:</strong> <code>role</code> (e.g. <code>Coordinator</code>, <code>Doctor</code>, <code>Nurse</code>, <code>Supervisor</code>), <code>status</code></li>
+</ul>
+<pre><code>// GET /api/user/get_staff_by_role?role=Coordinator
+{
+  "success": true,
+  "data": [
+    {
+      "_id": "664b8a7f1e4d3a001e9a5c12",
+      "name": "Dr. Sarah Jenkins",
+      "email": "sarah.jenkins@omca.com",
+      "role": "Coordinator",
+      "phone_no": "9876543210",
+      "dial_code": "+91",
+      "gender": "Female",
+      "profileImage": "uploads/staff/sarah_664b.jpg",
+      "status": 1
+    }
+  ]
+}</code></pre>
+
+<h4>2. Get All Active Coordinators</h4>
+<p>Dedicated helper to fetch coordinators specifically for patient assignment or transfer workflows.</p>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/user/get_coordinators</code></li>
+  <li><strong>Fallback URLs:</strong> <code>GET /api/get_coordinators</code>, <code>GET /api/coordinators</code></li>
+</ul>
+
+<h4>3. Get All System Roles Dropdown</h4>
+<p>Returns all registered system roles for user creation, filter chips, and role pickers.</p>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/getAllRoles</code></li>
+  <li><strong>URL:</strong> <code>https://mobappssolutiondevelopment.com/omca_crm/api/getAllRoles</code></li>
+</ul>
+<pre><code>// GET /api/getAllRoles
+{
+  "success": true,
+  "data": [
+    { "_id": "664b801a1e4d3a001e9a5100", "role": "Super Admin" },
+    { "_id": "664b802b1e4d3a001e9a5101", "role": "Coordinator" },
+    { "_id": "664b803c1e4d3a001e9a5102", "role": "Supervisor" },
+    { "_id": "664b804d1e4d3a001e9a5103", "role": "Operations Manager" },
+    { "_id": "664b805e1e4d3a001e9a5104", "role": "Director" },
+    { "_id": "664b806f1e4d3a001e9a5105", "role": "Physiotherapist" },
+    { "_id": "664b80701e4d3a001e9a5106", "role": "Referral Partner" }
+  ]
+}</code></pre>
+
+<h4>4. Get All Staff Master Directory</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/get_all_user_staffs?page=1&limit=50&search=</code></li>
+</ul>
+
+<h4>5. Get Physiotherapy Staff Dropdown</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/physiotherapy/staff</code> (Fallback: <code>GET /api/get_physiotherapy_staffs</code>)</li>
+</ul>
+
+<h3>10.3 Patients Master Dropdowns & Data Feeds</h3>
+
+<h4>1. All Patients (Searchable Dropdown & Typeahead)</h4>
+<p>Primary patient selection endpoint across the mobile app (used in Appointment creation, Order placement, Prescription upload, Pick & Drop scheduling, and Chat initiation).</p>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/all_patients</code></li>
+  <li><strong>Query Parameters:</strong> <code>search</code>, <code>page</code>, <code>limit</code>, <code>p_status</code>, <code>country</code>, <code>treatingIn</code>, <code>treatment</code>, <code>patient_type_new</code></li>
+</ul>
+<pre><code>// GET /api/all_patients?search=Michael&limit=10
+{
+  "details": [
+    {
+      "_id": "664b8d4f1e4d3a001e9a5c88",
+      "patientId": "OMCA-2026-1042",
+      "patient_name": "Michael Roberts",
+      "disease_name": "Knee Osteoarthritis",
+      "age": 52,
+      "gender": "Male",
+      "p_status": "Ongoing Treatment",
+      "patient_type_new": "Private",
+      "country": "Kenya",
+      "treatingIn": "India",
+      "emergency_contact_no": "+254712345678",
+      "coordinatorName": "Dr. Sarah Jenkins",
+      "hospital_name": "Apollo Hospitals Delhi"
+    }
+  ],
+  "pagination": { "totalRecords": 1, "currentPage": 1, "totalPages": 1, "perPage": 10 }
+}</code></pre>
+
+<h4>2. My Assigned Patients (Coordinator Worklist)</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/user/my_assigned_patients?page=1&limit=20&isAll=true</code></li>
+  <li><strong>Fallback:</strong> <code>GET /api/patient/assigned_to_me</code></li>
+</ul>
+
+<h4>3. Single Patient Full Details</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/user/get_particular_patient/:patientId</code> (Fallback: <code>GET /api/get_particular_patient/:patientId</code>)</li>
+</ul>
+
+<h4>4. Travel Patients Feed</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/get_travel_patients</code></li>
+</ul>
+
+<h4>5. Fast Patient Lookup by Phone Number</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>GET /api/checkPatientsByPhone?phone=&lt;NUMBER&gt;</code></li>
+</ul>
+
+<h3>10.4 Canonical Patient Status & Category Enums</h3>
+
+<h4>1. Patient Status Workflow Enums (<code>p_status</code>)</h4>
+<table>
+  <thead>
+    <tr>
+      <th>Status Key / Value</th>
+      <th>Display Label</th>
+      <th>Badge Color</th>
+      <th>Description</th>
+      <th>Requires Travel Dates?</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>"In_Process"</code></td><td>In Process</td><td><span class="badge" style="background:#dbeafe; color:#1d4ed8;">#3B82F6 Blue</span></td><td>Initial inquiry & medical review</td><td>No</td></tr>
+    <tr><td><code>"Confirmed"</code></td><td>Confirmed</td><td><span class="badge badge-success">#10B981 Green</span></td><td>Patient confirmed travel & treatment</td><td>No</td></tr>
+    <tr><td><code>"Pending"</code></td><td>Pending</td><td><span class="badge badge-warning">#F59E0B Amber</span></td><td>Awaiting medical reports / approvals</td><td>No</td></tr>
+    <tr><td><code>"On Hold"</code></td><td>On Hold</td><td><span class="badge" style="background:#f3f4f6; color:#4b5563;">#6B7280 Gray</span></td><td>Case paused by patient or hospital</td><td>No</td></tr>
+    <tr><td><code>"Arriving"</code></td><td>Arriving</td><td><span class="badge" style="background:#ede9fe; color:#6d28d9;">#8B5CF6 Purple</span></td><td>Incoming flight scheduled</td><td><strong>Yes (Modal)</strong></td></tr>
+    <tr><td><code>"Traveling Today"</code></td><td>Traveling Today</td><td><span class="badge" style="background:#fce7f3; color:#be185d;">#EC4899 Pink</span></td><td>Flight in transit today</td><td>No</td></tr>
+    <tr><td><code>"Travelled"</code></td><td>Travelled</td><td><span class="badge" style="background:#d1fae5; color:#065f46;">#059669 Dark Green</span></td><td>Arrived at destination hospital/guest house</td><td>No</td></tr>
+    <tr><td><code>"Ongoing Treatment"</code></td><td>Ongoing Treatment</td><td><span class="badge badge-primary">#0284C7 Sky Blue</span></td><td>Admitted / undergoing medical procedures</td><td>No</td></tr>
+    <tr><td><code>"Ongoing Fundraising"</code></td><td>Ongoing Fundraising</td><td><span class="badge" style="background:#ffedd5; color:#c2410c;">#D97706 Orange</span></td><td>Foundation / crowdsourcing in progress</td><td>No</td></tr>
+    <tr><td><code>"Treatment Completed"</code></td><td>Treatment Completed</td><td><span class="badge" style="background:#dcfce7; color:#166534;">#15803D Forest Green</span></td><td>Discharged from hospital care</td><td>No</td></tr>
+    <tr><td><code>"Departing"</code></td><td>Departing</td><td><span class="badge" style="background:#e0e7ff; color:#4338ca;">#6366F1 Indigo</span></td><td>Return flight scheduled</td><td><strong>Yes (Modal)</strong></td></tr>
+    <tr><td><code>"Preponed"</code></td><td>Preponed</td><td><span class="badge" style="background:#fae8ff; color:#a21caf;">#D946EF Fuchsia</span></td><td>Travel moved to an earlier date</td><td><strong>Yes (Modal)</strong></td></tr>
+    <tr><td><code>"Postponed"</code></td><td>Postponed</td><td><span class="badge" style="background:#ffedd5; color:#c2410c;">#F97316 Rust</span></td><td>Travel rescheduled / delayed</td><td><strong>Yes (Modal)</strong></td></tr>
+    <tr><td><code>"Follow Up"</code></td><td>Follow Up</td><td><span class="badge" style="background:#ccfbf1; color:#0f766e;">#14B8A6 Teal</span></td><td>Post-procedure routine consultation</td><td>No</td></tr>
+    <tr><td><code>"Local Case"</code></td><td>Local Case</td><td><span class="badge" style="background:#f1f5f9; color:#475569;">#64748B Slate</span></td><td>Domestic patient without cross-border travel</td><td>No</td></tr>
+    <tr><td><code>"Visit 1"</code></td><td>Visit 1</td><td><span class="badge badge-primary">#0284C7 Sky Blue</span></td><td>First clinical consultation</td><td>No</td></tr>
+    <tr><td><code>"Visit 2"</code></td><td>Visit 2</td><td><span class="badge badge-primary">#0284C7 Sky Blue</span></td><td>Second review visit</td><td>No</td></tr>
+    <tr><td><code>"Cancelled"</code></td><td>Cancelled</td><td><span class="badge badge-danger">#EF4444 Red</span></td><td>Case retracted or cancelled</td><td>No</td></tr>
+    <tr><td><code>"Passed Away"</code></td><td>Passed Away</td><td><span class="badge" style="background:#1e293b; color:#ffffff;">#1E293B Dark Slate</span></td><td>Patient expired</td><td>No</td></tr>
+  </tbody>
+</table>
+
+<h4>2. Update Patient Status API</h4>
+<ul>
+  <li><strong>Endpoint:</strong> <code>PUT /api/changePatientStatus/:patientId</code></li>
+  <li><strong>Payload:</strong> <code>{ "p_status": "Ongoing Treatment" }</code></li>
+</ul>
+
+<h4>3. Patient Types / Categories (<code>patient_type_new</code>)</h4>
+<p>Canonical options: <code>"Foundation"</code>, <code>"Private"</code>, <code>"Insurance"</code>, <code>"Insurance + Private"</code>, <code>"Referral"</code>, <code>"None"</code>.</p>
+
+<h3>10.5 Staff-to-Patient Assignment Workflows</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Action</th>
+      <th>Endpoint</th>
+      <th>Method</th>
+      <th>Payload</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Assign Coordinator</strong></td>
+      <td><code>/api/user/assign_patient_to_coordinator/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "coordinatorId": "...", "notes": "..." }</code></td>
+    </tr>
+    <tr>
+      <td><strong>Unassign Coordinator</strong></td>
+      <td><code>/api/user/unassign_patient_from_coordinator/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "reason": "Discharged or transferred" }</code></td>
+    </tr>
+    <tr>
+      <td><strong>Assign Physiotherapist</strong></td>
+      <td><code>/api/physiotherapy/assign/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "therapistId": "...", "frequency": "Daily", "startDate": "YYYY-MM-DD", "notes": "..." }</code></td>
+    </tr>
+    <tr>
+      <td><strong>Unassign Physiotherapist</strong></td>
+      <td><code>/api/physiotherapy/unassign/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "reason": "Therapy completed" }</code></td>
+    </tr>
+    <tr>
+      <td><strong>Assign Referral Partner</strong></td>
+      <td><code>/api/user/assign_referral/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "referralId": "REF-1002" }</code></td>
+    </tr>
+    <tr>
+      <td><strong>Assign Staff (Any Role: Doctor, Nurse, Coordinator, etc.)</strong></td>
+      <td><code>/api/user/assign_patient_staff/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "staffId": "...", "role": "Doctor", "notes": "..." }</code></td>
+    </tr>
+    <tr>
+      <td><strong>Unassign Specific Staff Role</strong></td>
+      <td><code>/api/user/unassign_patient_staff/:patientId</code></td>
+      <td>POST</td>
+      <td><code>{ "staffId": "...", "role": "Doctor", "reason": "..." }</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<h4>Care Team Multi-Staff Rules & Structure (<code>assignedStaff</code>)</h4>
+<div style="background: #f8fafc; border-left: 4px solid #0ba6df; padding: 14px 18px; border-radius: 6px; margin: 16px 0;">
+  <p><strong>Multiple Staff Members in Same Role:</strong> The backend tracks each staff member individually by their <code>userId</code> and <code>role</code>. You can assign <strong>Nurse Sarah</strong> and <strong>Nurse John</strong> simultaneously to the same patient (or multiple Doctors, Coordinators, etc.). Both are preserved in <code>patient.assignedStaff</code>.</p>
+  <p><strong>Smart Duplicate Prevention:</strong> If Nurse Sarah is assigned again with updated shift timings or notes, her existing record in <code>assignedStaff</code> is updated rather than creating a duplicate entry.</p>
+  <p><strong>Selective Unassigning:</strong> When unassigning with <code>{ "staffId": "...", "role": "Nurse" }</code>, the backend removes <em>only that specific staff member</em> (e.g. Nurse John), while Nurse Sarah remains assigned to the patient.</p>
+  <p><strong>Primary Coordinator vs. Care Team:</strong> <code>patient.assignedCoordinator</code> holds the Primary Coordinator for coordinator workflows, while <code>patient.assignedStaff</code> holds the unlimited multi-disciplinary care team (Doctors, Nurses, Physiotherapists, Supervisors).</p>
+</div>
+
+<h4>Managing "One Role, Multiple Staff Selected"</h4>
+<div style="background: #f1f5f9; padding: 14px 18px; border-radius: 6px; margin-bottom: 16px;">
+  <p><strong>Option A: Frontend Multi-Dispatch (<code>Promise.all</code>)</strong></p>
+  <pre><code>const selectedStaffIds = ["66fb10b2849c402123456781", "66fb10b2849c402123456782"];
+const role = "Nurse";
+const notes = "Assigned for morning care";
+
+await Promise.all(
+  selectedStaffIds.map(staffId =&gt;
+    coordinatorApi.assignStaffToPatient(patientId, { staffId, role, notes })
+  )
+);</code></pre>
+
+  <p style="margin-top: 12px;"><strong>Option B: Backend Batch Assignment Support</strong></p>
+  <p>Endpoint: <code>POST /api/user/assign_patient_staff/:patientId</code></p>
+  <pre><code>{
+  "staffIds": [
+    "66fb10b2849c402123456781",
+    "66fb10b2849c402123456782"
+  ],
+  "role": "Nurse",
+  "notes": "Assigned for post-op morning shift care"
+}</code></pre>
+</div>
+
+<h4>The 3 Key APIs to Inspect Assigned Staff (per Patient)</h4>
+<ol style="padding-left: 20px; line-height: 1.8;">
+  <li>
+    <strong>All Patients List API (With Staff Assignment Filters)</strong><br/>
+    <code>GET</code> or <code>POST /api/user/all_patients</code><br/>
+    Query parameters:
+    <ul>
+      <li><code>assignedStaffId=&lt;userId&gt;</code>: Filter patients assigned to a specific staff member.</li>
+      <li><code>onlyAssigned=true</code>: Return only patients with at least one assigned staff member or coordinator.</li>
+      <li><code>assignedToMe=true</code>: Filter patients assigned to current logged-in user.</li>
+    </ul>
+    Returned objects embed both <code>assignedCoordinator</code> and full <code>assignedStaff: [ ... ]</code> array.
+  </li>
+  <li style="margin-top: 10px;">
+    <strong>"My Assigned Patients" List API</strong><br/>
+    <code>GET /api/user/my_assigned_patients</code> (or <code>/api/patient/assigned_to_me</code>)<br/>
+    Query parameters: <code>page=1</code>, <code>limit=25</code>, <code>role=Nurse</code>, <code>p_status=Confirmed</code>.<br/>
+    Returns personalized queue with <code>isAssignedToMe: true</code>, <code>myAssignedRoles</code>, <code>myStaffAssignments</code>, and <code>assignedStaff</code>.
+  </li>
+  <li style="margin-top: 10px;">
+    <strong>Single Patient Detail API</strong><br/>
+    <code>GET /api/user/get_patient/:patientId</code> (or <code>/api/patient/get_patient_details/:patientId</code>)<br/>
+    Returns full patient record including complete <code>assignedCoordinator</code>, <code>assignedStaff</code> array, and historical assignment audit logs in <code>discussionNotes</code>.
+  </li>
+</ol>
+
+<div style="background: #eef2ff; border-left: 4px solid #6366f1; padding: 12px 16px; border-radius: 6px; margin: 16px 0;">
+  <strong>Instant Mutation Response:</strong> Both <code>assign_patient_staff</code> and <code>unassign_patient_staff</code> endpoints return the complete updated <code>assignedStaff</code> array in <code>res.data</code> (and <code>res.assignedStaff</code>), allowing the frontend to immediately update client state without an extra fetch roundtrip.
+</div>
+
+<h3>10.6 Other Operational Master Dropdowns</h3>
+<ul>
+  <li><strong>Referral Partners:</strong> <code>GET /api/referral/list?page=1&limit=100&status=active</code></li>
+  <li><strong>Partner Hospitals:</strong> <code>POST /api/crm/hospital_list</code> (Returns hospital name, city, country, contact)</li>
+  <li><strong>Treatment Courses:</strong> <code>POST /api/crm/treatment_list</code> (Returns treatment name, specialty, duration)</li>
+  <li><strong>Active Countries & Dial Codes:</strong> <code>GET /api/getActiveCountries</code> (Returns country name, ISO code, dial code)</li>
+  <li><strong>Guest Houses & Accommodations:</strong> <code>GET /api/guesthouse/list</code> (Returns facility name, rooms, daily rates, amenities)</li>
+</ul>
+
+<h3>10.7 Native Swift & Kotlin Models for Pickers</h3>
+
+<h4>iOS (Swift)</h4>
+<pre><code>struct DropdownOption: Identifiable, Hashable {
+    let id: String
+    let label: String
+    let subtitle: String?
+    let badgeColorHex: String?
+}
+
+struct StaffDropdownItem: Codable, Identifiable {
+    let id: String
+    let name: String
+    let email: String?
+    let role: String
+    let phoneNo: String?
+    let dialCode: String?
+    let profileImage: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id", name, email, role
+        case phoneNo = "phone_no"
+        case dialCode = "dial_code"
+        case profileImage
+    }
+}
+
+struct PatientDropdownItem: Codable, Identifiable {
+    let id: String
+    let patientId: String?
+    let patientName: String
+    let diseaseName: String?
+    let status: String?
+    let country: String?
+
+    enum CodingKeys: String, CodingKey {
+        case id = "_id", patientId
+        case patientName = "patient_name"
+        case diseaseName = "disease_name"
+        case status = "p_status"
+        case country
+    }
+}
+
+struct AssignedCareTeamMember: Codable, Identifiable {
+    let userId: String
+    let name: String
+    let role: String
+    let email: String?
+    let phone: String?
+    let notes: String?
+    let assignedAt: String?
+
+    var id: String { userId }
+}
+
+struct PatientCareTeamResponse: Codable {
+    let success: Bool
+    let message: String?
+    let assignedStaff: [AssignedCareTeamMember]?
+    let assignedCoordinator: AssignedCareTeamMember?
+}</code></pre>
+
+<h4>Android (Kotlin)</h4>
+<pre><code>data class DropdownOption(
+    val id: String,
+    val label: String,
+    val subtitle: String? = null,
+    val badgeColorHex: String? = null
+)
+
+data class StaffDropdownItem(
+    @SerializedName("_id") val id: String,
+    val name: String,
+    val email: String? = null,
+    val role: String,
+    @SerializedName("phone_no") val phoneNo: String? = null,
+    @SerializedName("dial_code") val dialCode: String? = null,
+    val profileImage: String? = null
+)
+
+data class PatientDropdownItem(
+    @SerializedName("_id") val id: String,
+    val patientId: String? = null,
+    @SerializedName("patient_name") val patientName: String,
+    @SerializedName("disease_name") val diseaseName: String? = null,
+    @SerializedName("p_status") val status: String? = null,
+    val country: String? = null
+)
+
+data class AssignedCareTeamMember(
+    @SerializedName("userId") val userId: String,
+    val name: String,
+    val role: String,
+    val email: String? = null,
+    val phone: String? = null,
+    val notes: String? = null,
+    val assignedAt: String? = null
+)
+
+data class PatientCareTeamResponse(
+    val success: Boolean,
+    val message: String? = null,
+    val assignedStaff: List<AssignedCareTeamMember>? = null,
+    val assignedCoordinator: AssignedCareTeamMember? = null
+)</code></pre>
+
+  </div>
+</body>
+</html>

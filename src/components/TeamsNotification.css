@@ -1,0 +1,412 @@
+/* ==========================================================================
+   Microsoft Teams Style Incoming Call & Message Notification Toast
+   ========================================================================== */
+
+/* Outer Toast Container */
+.teams-notif-card {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 360px;
+  max-width: calc(100vw - 32px);
+  background: rgba(26, 26, 30, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  padding: 16px 18px 18px;
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.75), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  z-index: 99999999;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  animation: teamsSlideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all 0.25s ease;
+  user-select: none;
+}
+
+@keyframes teamsSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.teams-notif-card.is-closing {
+  opacity: 0;
+  transform: translateY(20px) scale(0.95);
+  transition: all 0.25s ease;
+}
+
+/* Header */
+.teams-notif-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.teams-notif-app-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: 0.01em;
+}
+
+.teams-notif-app-icon {
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #6264a7; /* Teams signature purple */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 11px;
+}
+
+.teams-notif-app-icon.is-chat {
+  background: #0284c7; /* Chat blue */
+}
+
+.teams-notif-close-btn {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 15px;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  padding: 0;
+}
+
+.teams-notif-close-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+/* Center Call Body */
+.teams-notif-call-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6px 0 12px;
+}
+
+.teams-notif-avatar-wrapper {
+  position: relative;
+  width: 76px;
+  height: 76px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.teams-notif-avatar-img,
+.teams-notif-avatar-initials {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.teams-notif-avatar-initials {
+  background: linear-gradient(135deg, #6264a7, #464775);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+/* Pulsating rings around avatar */
+.teams-notif-pulse-ring {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  right: -8px;
+  bottom: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(98, 100, 167, 0.6);
+  animation: teamsPulseRing 2s cubic-bezier(0.2, 0, 0.2, 1) infinite;
+  z-index: 1;
+}
+
+.teams-notif-pulse-ring.ring-2 {
+  animation-delay: 0.6s;
+}
+
+@keyframes teamsPulseRing {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+.teams-notif-caller-name {
+  font-size: 17px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 3px;
+  max-width: 90%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teams-notif-caller-status {
+  font-size: 13.5px;
+  color: #cbd5e1;
+  font-weight: 500;
+}
+
+.teams-notif-chat-pill {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  padding: 3px 10px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.teams-notif-call-body:hover .teams-notif-chat-pill {
+  background: rgba(56, 189, 248, 0.22);
+  color: #7dd3fc;
+}
+
+/* Bottom Action Buttons (Exact Teams Layout: Video | Audio | Decline) */
+.teams-notif-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.teams-btn {
+  flex: 1;
+  height: 44px;
+  border-radius: 8px;
+  border: none;
+  font-size: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.teams-btn i {
+  pointer-events: none;
+}
+
+/* Video Accept Button */
+.teams-btn-accept-video {
+  background: #6264a7; /* Teams signature purple */
+}
+
+.teams-btn-accept-video:hover {
+  background: #505295;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(98, 100, 167, 0.45);
+}
+
+/* Audio Accept Button */
+.teams-btn-accept-audio {
+  background: #6264a7; /* Teams signature purple */
+}
+
+.teams-btn-accept-audio:hover {
+  background: #505295;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(98, 100, 167, 0.45);
+}
+
+/* Decline Button */
+.teams-btn-decline {
+  background: #c4314b; /* Teams red */
+}
+
+.teams-btn-decline:hover {
+  background: #a8263d;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(196, 49, 75, 0.5);
+}
+
+/* ==========================================================================
+   Teams Style Chat Message Toast
+   ========================================================================== */
+.teams-msg-card {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 350px;
+  max-width: calc(100vw - 32px);
+  background: rgba(28, 28, 32, 0.96);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 14px;
+  padding: 14px 16px;
+  box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  z-index: 99999998;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  animation: teamsSlideIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.teams-msg-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 24px 52px -6px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+
+.teams-msg-body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.teams-msg-avatar-img,
+.teams-msg-avatar-initials {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.teams-msg-avatar-initials {
+  background: linear-gradient(135deg, #0284c7, #0369a1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.teams-msg-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.teams-msg-sender {
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teams-msg-text {
+  font-size: 13px;
+  color: #cbd5e1;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.teams-msg-action-hint {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #38bdf8;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 576px) {
+  .teams-notif-card,
+  .teams-msg-card {
+    bottom: 16px;
+    right: 16px;
+    left: 16px;
+    width: auto;
+    max-width: none;
+    border-radius: 14px;
+  }
+}
+
+/* Prompt Banner for Enabling Windows Desktop Notifications */
+.omca-desktop-notif-prompt-banner {
+  position: fixed;
+  top: 14px;
+  right: 20px;
+  z-index: 9999999;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.55), 0 0 18px rgba(56, 189, 248, 0.15);
+  border-radius: 12px;
+  padding: 10px 16px;
+  color: #f8fafc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  max-width: 580px;
+  font-size: 13px;
+  animation: teamsSlideIn 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .omca-desktop-notif-prompt-banner {
+    top: 8px;
+    right: 10px;
+    left: 10px;
+    max-width: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    padding: 10px 12px;
+  }
+}
+
+
+.omca-desktop-notif-prompt-banner.omca-notif-blocked {
+  border-color: rgba(239, 68, 68, 0.5);
+  box-shadow: 0 14px 30px -4px rgba(0, 0, 0, 0.55), 0 0 18px rgba(239, 68, 68, 0.25);
+}

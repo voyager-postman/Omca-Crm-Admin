@@ -1,0 +1,1195 @@
+/* ==========================================================================
+   Patient.css - Ultra-Optimized & Modern Styles for Patient Management
+   ========================================================================== */
+
+.patient-page-wrapper {
+  padding: 0;
+  background-color: #f8fafc;
+  min-height: calc(100vh - 60px);
+}
+
+/* --------------------------------------------------------------------------
+   Top Metrics / KPI Stat Cards
+   -------------------------------------------------------------------------- */
+.patient-stats-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.patient-stat-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.patient-stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+  border-color: #cbd5e1;
+}
+
+.patient-stat-card.active {
+  border-color: #0ba6df;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 2px rgba(11, 166, 223, 0.2);
+}
+
+.patient-stat-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+}
+
+.patient-stat-card.stat-all::before { background: #0ba6df; }
+.patient-stat-card.stat-treatment::before { background: #10b981; }
+.patient-stat-card.stat-travel::before { background: #0284c7; }
+.patient-stat-card.stat-completed::before { background: #8b5cf6; }
+.patient-stat-card.stat-physio::before { background: #f59e0b; }
+.patient-stat-card.stat-unread::before { background: #ef4444; }
+
+.stat-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.2;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: #94a3b8;
+  margin-top: 2px;
+}
+
+.stat-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.stat-all .stat-icon-wrapper { background: #e0f2fe; color: #0284c7; }
+.stat-treatment .stat-icon-wrapper { background: #ecfdf5; color: #059669; }
+.stat-travel .stat-icon-wrapper { background: #eff6ff; color: #2563eb; }
+.stat-completed .stat-icon-wrapper { background: #f5f3ff; color: #7c3aed; }
+.stat-physio .stat-icon-wrapper { background: #fef3c7; color: #d97706; }
+.stat-unread .stat-icon-wrapper { background: #fee2e2; color: #dc2626; }
+
+/* --------------------------------------------------------------------------
+   Modern Toolbar & Header
+   -------------------------------------------------------------------------- */
+.patient-toolbar-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  padding: 14px 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.patient-header-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.patient-title-area {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.patient-page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.patient-count-badge {
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1px solid #bae6fd;
+}
+
+.patient-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.patient-search-input-box {
+  min-width: 230px;
+}
+
+.patient-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 13px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  color: #334155;
+}
+
+.patient-btn:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  color: #0f172a;
+}
+
+.patient-btn-primary {
+  background: #0ba6df;
+  border-color: #0ba6df;
+  color: #ffffff;
+}
+
+.patient-btn-primary:hover {
+  background: #098dc0;
+  border-color: #098dc0;
+  color: #ffffff;
+}
+
+.patient-btn-success {
+  background: #10b981;
+  border-color: #10b981;
+  color: #ffffff;
+}
+
+.patient-btn-success:hover {
+  background: #059669;
+  border-color: #059669;
+  color: #ffffff;
+}
+
+.patient-btn.active {
+  background: #eff6ff;
+  border-color: #93c5fd;
+  color: #1d4ed8;
+}
+
+.patient-btn .badge-pill {
+  background: #ef4444;
+  color: #fff;
+  border-radius: 10px;
+  font-size: 10px;
+  padding: 1px 6px;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------------------
+   Quick Status Filter Tabs
+   -------------------------------------------------------------------------- */
+.patient-quick-filters-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding-top: 10px;
+  margin-top: 10px;
+  border-top: 1px solid #f1f5f9;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.patient-quick-filters-bar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.quick-filter-chip {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quick-filter-chip:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.quick-filter-chip.active {
+  background: #0ba6df;
+  color: #ffffff;
+  font-weight: 600;
+  border-color: #0ba6df;
+}
+
+/* --------------------------------------------------------------------------
+   Collapsible Advanced Filters Drawer / Box
+   -------------------------------------------------------------------------- */
+.advanced-filters-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 12px;
+}
+
+.patient-date-range-group {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.patient-date-range-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
+}
+
+.patient-date-filter-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0369a1;
+  background: #e0f2fe;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  padding: 8px 10px;
+  height: 40px;
+}
+
+/* --------------------------------------------------------------------------
+   Modern Table Container & Responsive Styling
+   -------------------------------------------------------------------------- */
+.patient-table-card {
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.patient-table-wrapper,
+.patient-table-wrapper .MuiTableContainer-root {
+  overflow-x: auto;
+  width: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f8fafc;
+}
+
+.patient-table-wrapper::-webkit-scrollbar,
+.patient-table-wrapper .MuiTableContainer-root::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.patient-table-wrapper::-webkit-scrollbar-track,
+.patient-table-wrapper .MuiTableContainer-root::-webkit-scrollbar-track {
+  background: #f8fafc;
+  border-radius: 4px;
+}
+
+.patient-table-wrapper::-webkit-scrollbar-thumb,
+.patient-table-wrapper .MuiTableContainer-root::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.patient-table-wrapper::-webkit-scrollbar-thumb:hover,
+.patient-table-wrapper .MuiTableContainer-root::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.patient-modern-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: inherit;
+}
+
+.patient-modern-table th {
+  background: #f8fafc !important;
+  color: #475569 !important;
+  font-size: 11.5px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.5px !important;
+  padding: 11px 12px !important;
+  border-bottom: 2px solid #e2e8f0 !important;
+  white-space: nowrap !important;
+  user-select: none;
+}
+
+.patient-modern-table td {
+  padding: 8px 12px !important;
+  font-size: 12.5px !important;
+  color: #1e293b !important;
+  border-bottom: 1px solid #f1f5f9 !important;
+  vertical-align: middle !important;
+  background: #ffffff;
+}
+
+.patient-row {
+  transition: background-color 0.15s ease;
+}
+
+.patient-row:hover td {
+  background-color: #f8fafc !important;
+}
+
+/* Simple unread row matching Enquiry table style (no left line, clean background) */
+.patient-row.unread-patient-row td {
+  background-color: #ffffff;
+}
+
+.patient-row.unread-patient-row td:first-child {
+  border-left: none !important;
+}
+
+/* Sticky Column: Actions on the Right */
+.patient-sticky-action-col {
+  position: sticky !important;
+  right: 0 !important;
+  background: #ffffff !important;
+  z-index: 3 !important;
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.patient-sticky-action-header {
+  position: sticky !important;
+  right: 0 !important;
+  background: #f8fafc !important;
+  z-index: 4 !important;
+  box-shadow: -4px 0 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.patient-row:hover .patient-sticky-action-col {
+  background: #f8fafc !important;
+}
+
+.patient-row.unread-patient-row .patient-sticky-action-col {
+  background: #ffffff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Patient Info Cell (Merged Name + ID + Phone)
+   -------------------------------------------------------------------------- */
+.patient-cell-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 190px;
+}
+
+.patient-avatar-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0ba6df, #0284c7);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 4px rgba(11, 166, 223, 0.25);
+}
+
+.patient-info-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.patient-name-link {
+  font-weight: 600;
+  color: #0f172a;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.15s ease;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.patient-name-link:hover {
+  color: #0ba6df;
+  text-decoration: underline;
+}
+
+.patient-sub-details {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #64748b;
+  flex-wrap: wrap;
+}
+
+.patient-id-badge {
+  background: #f1f5f9;
+  color: #475569;
+  font-family: monospace;
+  font-weight: 600;
+  padding: 1px 5px;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+  font-size: 10.5px;
+}
+
+.patient-phone-link {
+  color: #64748b;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+}
+
+/* --------------------------------------------------------------------------
+   Status & Type Pill Selects (Ultra Compact & Attractive)
+   -------------------------------------------------------------------------- */
+.compact-pill-select {
+  height: 28px !important;
+  font-size: 11.5px !important;
+  font-weight: 600 !important;
+  border-radius: 20px !important;
+  padding: 2px 10px !important;
+  border: 1px solid transparent !important;
+  outline: none !important;
+  cursor: pointer !important;
+  transition: all 0.2s ease !important;
+  white-space: nowrap !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  background-position: right 8px center !important;
+  background-repeat: no-repeat !important;
+  background-size: 8px !important;
+  padding-right: 22px !important;
+}
+
+/* Status Pill Colors */
+.status-pill-ongoing-treatment {
+  background-color: #ecfdf5 !important;
+  color: #065f46 !important;
+  border-color: #a7f3d0 !important;
+}
+.status-pill-ongoing-fundraising {
+  background-color: #fdf4ff !important;
+  color: #86198f !important;
+  border-color: #f5d0fe !important;
+}
+.status-pill-treatment-completed {
+  background-color: #f5f3ff !important;
+  color: #6b21a8 !important;
+  border-color: #ddd6fe !important;
+}
+.status-pill-travelled,
+.status-pill-traveling-today,
+.status-pill-arriving {
+  background-color: #e0f2fe !important;
+  color: #0369a1 !important;
+  border-color: #bae6fd !important;
+}
+.status-pill-in-process,
+.status-pill-confirmed {
+  background-color: #eff6ff !important;
+  color: #1e40af !important;
+  border-color: #bfdbfe !important;
+}
+.status-pill-pending,
+.status-pill-on-hold {
+  background-color: #fffbeb !important;
+  color: #92400e !important;
+  border-color: #fde68a !important;
+}
+.status-pill-cancelled,
+.status-pill-passed-away {
+  background-color: #fef2f2 !important;
+  color: #991b1b !important;
+  border-color: #fecaca !important;
+}
+.status-pill-default {
+  background-color: #f8fafc !important;
+  color: #475569 !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* Patient Type Pill Colors */
+.type-pill-private {
+  background-color: #eef2ff !important;
+  color: #3730a3 !important;
+  border-color: #c7d2fe !important;
+}
+.type-pill-foundation {
+  background-color: #fff7ed !important;
+  color: #9a3412 !important;
+  border-color: #fed7aa !important;
+}
+.type-pill-insurance {
+  background-color: #ecfdf5 !important;
+  color: #065f46 !important;
+  border-color: #a7f3d0 !important;
+}
+.type-pill-insurance-private {
+  background-color: #faf5ff !important;
+  color: #6b21a8 !important;
+  border-color: #e9d5ff !important;
+}
+.type-pill-none {
+  background-color: #f8fafc !important;
+  color: #64748b !important;
+  border-color: #e2e8f0 !important;
+}
+
+/* --------------------------------------------------------------------------
+   Action Buttons (Compact, Round, Clean)
+   -------------------------------------------------------------------------- */
+.patient-action-btns-flex {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  justify-content: flex-start;
+}
+
+.p-action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-size: 13px;
+  position: relative;
+  background: #f1f5f9;
+  color: #475569;
+  padding: 0;
+}
+
+.p-action-btn:hover {
+  transform: translateY(-1px);
+}
+
+.p-action-btn-view {
+  background: #e0f2fe;
+  color: #0284c7;
+  border-color: #bae6fd;
+}
+.p-action-btn-view:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.p-action-btn-notes {
+  background: #fef3c7;
+  color: #d97706;
+  border-color: #fde68a;
+}
+.p-action-btn-notes:hover {
+  background: #d97706;
+  color: #ffffff;
+}
+
+.p-action-btn-notes .p-notes-count-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 9px;
+  padding: 1px 4px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.p-action-btn-edit {
+  background: #f3e8ff;
+  color: #9333ea;
+  border-color: #e9d5ff;
+}
+.p-action-btn-edit:hover {
+  background: #9333ea;
+  color: #ffffff;
+}
+
+.p-action-btn-more {
+  background: #f8fafc;
+  color: #64748b;
+  border-color: #cbd5e1;
+}
+.p-action-btn-more:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.p-action-btn-delete {
+  background: #fee2e2;
+  color: #ef4444;
+  border-color: #fecaca;
+}
+.p-action-btn-delete:hover {
+  background: #ef4444;
+  color: #ffffff;
+}
+
+/* Assigned state: Active blue with glowing subtle highlight */
+.p-action-assigned {
+  background: #e0f2fe !important;
+  color: #0284c7 !important;
+  border-color: #7dd3fc !important;
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(2, 132, 199, 0.2);
+}
+.p-action-assigned:hover {
+  background: #0284c7 !important;
+  color: #ffffff !important;
+  border-color: #0284c7 !important;
+}
+
+.p-action-btn-chat {
+  background: #f0fdfa;
+  color: #0d9488;
+  border-color: #ccfbf1;
+}
+.p-action-btn-chat:hover {
+  background: #0d9488;
+  color: #ffffff;
+}
+
+.p-action-btn-physio {
+  background: #f8fafc;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+.p-action-btn-physio:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.p-action-btn-coord {
+  background: #f8fafc;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+.p-action-btn-coord:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.p-action-btn-referral {
+  background: #f8fafc;
+  color: #64748b;
+  border-color: #e2e8f0;
+}
+.p-action-btn-referral:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.p-action-btn-activity {
+  background: #f8fafc;
+  color: #0284c7;
+  border-color: #e2e8f0;
+}
+.p-action-btn-activity:hover {
+  background: #0284c7;
+  color: #ffffff;
+}
+
+.p-action-btn-timeline {
+  background: #f0fdf4;
+  color: #16a34a;
+  border-color: #dcfce7;
+}
+.p-action-btn-timeline:hover {
+  background: #16a34a;
+  color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   Modern More-Actions Dropdown Menu
+   -------------------------------------------------------------------------- */
+.patient-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  min-width: 210px;
+  z-index: 1050;
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  animation: pMenuFadeIn 0.15s ease-out;
+}
+
+@keyframes pMenuFadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.p-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #334155;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+.p-menu-item:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+
+.p-menu-item.danger-item {
+  color: #dc2626;
+}
+.p-menu-item.danger-item:hover {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.p-menu-item i {
+  width: 16px;
+  text-align: center;
+  font-size: 13px;
+}
+
+.p-menu-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 4px 0;
+}
+
+/* --------------------------------------------------------------------------
+   Pagination & Footer Controls Bar
+   -------------------------------------------------------------------------- */
+.patient-pagination-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: #ffffff;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.patient-pagination-info {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.patient-pagination-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.rows-per-page-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.rows-select {
+  height: 32px;
+  padding: 0 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  background: #ffffff;
+  font-size: 12.5px;
+  color: #334155;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+}
+
+.rows-select:focus {
+  border-color: #0ba6df;
+}
+
+/* --------------------------------------------------------------------------
+   Column Visibility Popover
+   -------------------------------------------------------------------------- */
+.column-visibility-menu {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 4px;
+  background: #ffffff;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+  padding: 12px 14px;
+  width: 220px;
+  z-index: 1050;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.col-toggle-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: #334155;
+  cursor: pointer;
+  user-select: none;
+}
+
+.col-toggle-label input[type="checkbox"] {
+  cursor: pointer;
+  accent-color: #0ba6df;
+  width: 15px;
+  height: 15px;
+}
+
+/* --------------------------------------------------------------------------
+   Density Variations
+   -------------------------------------------------------------------------- */
+.patient-table-compact th {
+  padding: 7px 8px !important;
+  font-size: 11px !important;
+}
+
+.patient-table-compact td {
+  padding: 5px 8px !important;
+  font-size: 12px !important;
+}
+
+.patient-table-compact .compact-pill-select {
+  height: 24px !important;
+  font-size: 11px !important;
+  padding: 1px 6px !important;
+  padding-right: 18px !important;
+}
+
+.patient-table-compact .p-action-btn {
+  width: 26px !important;
+  height: 26px !important;
+  font-size: 12px !important;
+}
+
+.patient-table-compact .patient-avatar-circle {
+  width: 28px !important;
+  height: 28px !important;
+  font-size: 11px !important;
+}
+
+/* --------------------------------------------------------------------------
+   Patient Assignment Chips & Badges
+   -------------------------------------------------------------------------- */
+.patient-assignment-chips-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.patient-assign-chip {
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  outline: none;
+  font-family: inherit;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.patient-assign-chip:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  filter: brightness(0.97);
+}
+
+.patient-assign-chip:active {
+  transform: translateY(0);
+}
+
+.patient-assign-chip-staff:hover {
+  border-color: #a5b4fc !important;
+  background-color: #e0e7ff !important;
+}
+
+.patient-assign-chip-physio:hover {
+  border-color: #86efac !important;
+  background-color: #dcfce7 !important;
+}
+
+.patient-assign-chip-referral:hover {
+  border-color: #fdba74 !important;
+  background-color: #ffedd5 !important;
+}
+
+/* ==========================================================================
+   Patient Top KPI Cards (Physiotherapy-style metrics)
+   ========================================================================== */
+.patient-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.patient-kpi-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.patient-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+.patient-kpi-card.active-kpi {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
+}
+
+.patient-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.patient-kpi-icon.blue { background-color: #eff6ff; color: #2563eb; }
+.patient-kpi-icon.green { background-color: #f0fdf4; color: #16a34a; }
+.patient-kpi-icon.indigo { background-color: #eef2ff; color: #4f46e5; }
+.patient-kpi-icon.teal { background-color: #f0fdfa; color: #0d9488; }
+.patient-kpi-icon.purple { background-color: #faf5ff; color: #9333ea; }
+.patient-kpi-icon.amber { background-color: #fffbeb; color: #d97706; }
+
+.patient-kpi-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.patient-kpi-info h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.patient-kpi-info span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ==========================================================================
+   Assignment Letter Badges (S, C, R, P)
+   ========================================================================== */
+.assignment-letter-badge {
+  width: 22px;
+  height: 22px;
+  min-width: 22px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  line-height: 1;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+  border: 1.5px solid transparent;
+  outline: none;
+}
+
+.assignment-letter-badge:hover {
+  transform: scale(1.18);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.14);
+}
+
+.assignment-letter-badge.is-assigned.staff {
+  background-color: #f3e8ff;
+  border-color: #a855f7;
+  color: #7e22ce;
+}
+
+.assignment-letter-badge.is-assigned.coordinator {
+  background-color: #eff6ff;
+  border-color: #3b82f6;
+  color: #1d4ed8;
+}
+
+.assignment-letter-badge.is-assigned.referral {
+  background-color: #fff7ed;
+  border-color: #f97316;
+  color: #c2410c;
+}
+
+.assignment-letter-badge.is-assigned.insurance {
+  background-color: #ecfeff;
+  border-color: #06b6d4;
+  color: #0891b2;
+}
+
+.assignment-letter-badge.is-assigned.physio {
+  background-color: #ecfdf5;
+  border-color: #10b981;
+  color: #047857;
+}
+
+.assignment-letter-badge.flagged.physio {
+  background-color: #fef3c7;
+  border: 1.5px dashed #f59e0b;
+  color: #b45309;
+}
+
+.assignment-letter-badge.unassigned {
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  color: #94a3b8;
+}
+
+.assignment-letter-badge.unassigned:hover {
+  border-color: #94a3b8;
+  color: #475569;
+  background-color: #f1f5f9;
+}
+
+/* --------------------------------------------------------------------------
+   Upload Treatment Plan on behalf of Hospital Button
+   -------------------------------------------------------------------------- */
+.btn-upload-tp {
+  background: linear-gradient(135deg, #00b4db 0%, #0083b0 100%) !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 6px !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  padding: 5px 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(0, 180, 219, 0.3) !important;
+  transition: all 0.2s ease !important;
+  line-height: 1.4 !important;
+  vertical-align: middle !important;
+}
+
+.btn-upload-tp:hover {
+  background: linear-gradient(135deg, #00a0c4 0%, #007299 100%) !important;
+  box-shadow: 0 4px 10px rgba(0, 180, 219, 0.45) !important;
+  transform: translateY(-1px);
+}
+
+.btn-upload-tp:disabled {
+  opacity: 0.65 !important;
+  cursor: not-allowed !important;
+  transform: none !important;
+}
+
+.awaiting-tp-status {
+  background-color: #e0f2fe;
+  color: #0284c7;
+  border: 1px solid #bae6fd;
+  border-radius: 20px;
+  padding: 3px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+}
+
+

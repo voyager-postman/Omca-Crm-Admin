@@ -1,0 +1,6 @@
+bin/
+obj/
+.vs/
+node_modules/
+*.7z
+omca_crm-30-05-2026.7z

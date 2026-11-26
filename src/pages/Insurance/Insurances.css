@@ -1,0 +1,473 @@
+/* Insurance Management Module Styles */
+
+.insurances-page,
+.referrals-page {
+  padding: 20px 24px;
+}
+
+.insurance-header-card,
+.referral-header-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  border: 1px solid #edf2f7;
+}
+
+.insurance-title,
+.referral-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.insurance-subtitle,
+.referral-subtitle {
+  color: #718096;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+/* Stats Pill Cards */
+.insurance-stat-pill,
+.referral-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 600;
+  background: #f7fafc;
+  color: #4a5568;
+  border: 1px solid #e2e8f0;
+}
+
+.insurance-stat-pill.total,
+.referral-stat-pill.total {
+  background: #ebf8ff;
+  color: #2b6cb0;
+  border-color: #bee3f8;
+}
+
+.insurance-stat-pill.active,
+.referral-stat-pill.active {
+  background: #f0fff4;
+  color: #276749;
+  border-color: #c6f6d5;
+}
+
+.insurance-stat-pill.inactive,
+.referral-stat-pill.inactive {
+  background: #fff5f5;
+  color: #9b2c2c;
+  border-color: #fed7d7;
+}
+
+/* Filter controls bar */
+.insurance-filter-bar,
+.referral-filter-bar {
+  background: #ffffff;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 20px;
+  border: 1px solid #edf2f7;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.03);
+}
+
+.search-input-wrapper {
+  position: relative;
+  min-width: 280px;
+}
+
+.search-input-wrapper i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #a0aec0;
+}
+
+.search-input-wrapper input {
+  padding-left: 36px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e0;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.search-input-wrapper input:focus {
+  border-color: #0891b2;
+  box-shadow: 0 0 0 3px rgba(8, 145, 178, 0.15);
+  outline: none;
+}
+
+/* Custom Table */
+.insurance-table-container,
+.referral-table-container {
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  border: 1px solid #edf2f7;
+}
+
+.insurance-table,
+.referral-table {
+  width: 100%;
+  margin-bottom: 0;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.insurance-table thead th,
+.referral-table thead th {
+  background: #f8fafc;
+  color: #4a5568;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 14px 18px;
+  border-bottom: 2px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+.insurance-table tbody td,
+.referral-table tbody td {
+  padding: 16px 18px;
+  vertical-align: middle;
+  border-bottom: 1px solid #edf2f7;
+  font-size: 14px;
+  color: #2d3748;
+}
+
+.insurance-table tbody tr:hover,
+.referral-table tbody tr:hover {
+  background-color: #f7fafc;
+}
+
+/* Insurance ID Badge */
+.insurance-id-tag,
+.referral-id-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 13px;
+  color: #0891b2;
+  background: #ecfeff;
+  border: 1px solid #a5f3fc;
+  padding: 4px 10px;
+  border-radius: 6px;
+}
+
+/* Status Badges */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  user-select: none;
+}
+
+.status-pill.active {
+  background: #def7ec;
+  color: #03543f;
+  border: 1px solid #bcf0da;
+}
+
+.status-pill.active:hover {
+  background: #bcf0da;
+}
+
+.status-pill.inactive {
+  background: #fde8e8;
+  color: #9b1c1c;
+  border: 1px solid #fbd5d5;
+}
+
+.status-pill.inactive:hover {
+  background: #fbd5d5;
+}
+
+/* Action Buttons */
+.action-btn-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.action-btn-circle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid transparent;
+  background: #edf2f7;
+  color: #4a5568;
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.action-btn-circle:hover {
+  transform: translateY(-1px);
+}
+
+.action-btn-circle.view {
+  background: #ebf8ff;
+  color: #3182ce;
+  border-color: #bee3f8;
+}
+
+.action-btn-circle.view:hover {
+  background: #3182ce;
+  color: #ffffff;
+}
+
+.action-btn-circle.edit {
+  background: #ecfeff;
+  color: #0891b2;
+  border-color: #a5f3fc;
+}
+
+.action-btn-circle.edit:hover {
+  background: #0891b2;
+  color: #ffffff;
+}
+
+.action-btn-circle.delete {
+  background: #fff5f5;
+  color: #e53e3e;
+  border-color: #fed7d7;
+}
+
+.action-btn-circle.delete:hover {
+  background: #e53e3e;
+  color: #ffffff;
+}
+
+/* Linked Patients Count Badge */
+.linked-patients-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #f3e8ff;
+  color: #6b21a8;
+  border: 1px solid #e9d5ff;
+  padding: 5px 12px;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 1px 2px rgba(107, 33, 168, 0.08);
+}
+
+.linked-patients-badge:hover {
+  background: #6b21a8;
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 8px rgba(107, 33, 168, 0.25);
+}
+
+.linked-patients-badge .badge-count {
+  background: #6b21a8;
+  color: #ffffff;
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-left: 2px;
+}
+
+.linked-patients-badge:hover .badge-count {
+  background: #ffffff;
+  color: #6b21a8;
+}
+
+/* ==========================================================================
+   Dashboard KPI Grid & KPI Cards
+   ========================================================================== */
+.patient-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.patient-kpi-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.patient-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+  border-color: #cbd5e1;
+}
+
+.patient-kpi-card.active-kpi {
+  border-color: #0891b2;
+  background: #ecfeff;
+  box-shadow: 0 0 0 2px rgba(8, 145, 178, 0.25);
+}
+
+.patient-kpi-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+
+.patient-kpi-icon.blue { background-color: #eff6ff; color: #2563eb; }
+.patient-kpi-icon.green { background-color: #f0fdf4; color: #16a34a; }
+.patient-kpi-icon.indigo { background-color: #eef2ff; color: #4f46e5; }
+.patient-kpi-icon.teal { background-color: #ecfeff; color: #0891b2; }
+.patient-kpi-icon.purple { background-color: #faf5ff; color: #9333ea; }
+.patient-kpi-icon.amber { background-color: #fffbeb; color: #d97706; }
+
+.patient-kpi-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.patient-kpi-info h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.patient-kpi-info span {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Quick Filter Chips */
+.quick-filter-chip {
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #64748b;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.quick-filter-chip:hover {
+  background: #e2e8f0;
+  color: #1e293b;
+}
+
+.quick-filter-chip.active {
+  background: #0891b2;
+  color: #ffffff;
+  border-color: #0891b2;
+  font-weight: 600;
+}
+
+/* Advanced Filters Panel */
+.advanced-filters-panel {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 16px;
+  margin-top: 14px;
+}
+
+.patient-date-range-group {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #cbd5e1;
+}
+
+.patient-date-range-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 8px;
+}
+
+/* Modal styling refinements */
+.insurance-modal-card,
+.referral-modal-card {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.insurance-detail-banner,
+.referral-detail-banner {
+  background: linear-gradient(135deg, #0891b2 0%, #0e7490 100%);
+  color: #ffffff;
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.insurance-detail-banner h4,
+.referral-detail-banner h4 {
+  color: #ffffff;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.patient-row-card {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  background: #ffffff;
+  transition: all 0.2s;
+}
+
+.patient-row-card:hover {
+  border-color: #cbd5e0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
