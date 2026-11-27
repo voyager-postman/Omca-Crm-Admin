@@ -351,6 +351,13 @@ export default function Sidebar() {
       label: "Activity Log",
       condition: hasActivityLogPermission(permissions, role),
     },
+    // {
+    //  path: "/Employee_Activity",
+    //  actualPath: "/Admin/employee-activity",
+    //  icon: "fa-bar-chart",
+    //  label: "Employee Activity",
+    //  condition: hasActivityLogPermission(permissions, role),
+    //},
     {
       path: "/Reports",
       actualPath: "/Admin/Reports",
@@ -380,6 +387,16 @@ export default function Sidebar() {
         permissions.includes("/Hospital_Commission") ||
         permissions.includes("/Payment_Data"),
     },
+    // {
+    //   path: "/GOP_Payments",
+    //   actualPath: "/Admin/gop-payments",
+    //   icon: "fa-file-text",
+    //   label: "GOP Payments",
+    //   condition:
+    //     role === "Admin" ||
+    //     permissions.includes("/GOP_Payments") ||
+    //     permissions.includes("/Payment_Data"),
+    // },
     {
       path: "/Manage_Roles",
       actualPath: "/Admin/roles",

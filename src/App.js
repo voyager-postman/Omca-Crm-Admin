@@ -11,6 +11,8 @@ import Reports from "./pages/Reports";
 import Earnings from "./pages/Earning";
 import PaymentData from "./pages/PaymentData/PaymentData";
 import HospitalCommission from "./pages/HospitalCommission/HospitalCommission";
+import GopPaymentsPage from "./pages/GopPayments/GopPaymentsPage";
+import EmployeeActivityDashboard from "./pages/ActivityLog/EmployeeActivityDashboard";
 import Inquiry from "./pages/Inquiry";
 import Treatments from "./pages/Treatments/Treatments";
 import Hospitals from "./pages/Hospitals/Hospitals";
@@ -88,6 +90,7 @@ import Physiotherapy from "./pages/Physiotherapy/Physiotherapy";
 import GuestHouseServices from "./pages/GuestHouseServices/GuestHouseServices";
 import AppUsers from "./pages/AppUsers/AppUsers";
 import GlobalCallNotificationManager from "./components/GlobalCallNotificationManager";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function App() {
   console.log("22/04/25");
@@ -95,10 +98,11 @@ function App() {
     <>
       <Provider store={store}>
         <Router>
-          <IdleLogout timeout={900000} />
-          <SessionSync />
-          <GlobalCallNotificationManager />
-          <Routes>
+          <ErrorBoundary>
+            <IdleLogout timeout={900000} />
+            <SessionSync />
+            <GlobalCallNotificationManager />
+            <Routes>
             <Route path="/" element={<AdminLogin />} />
             <Route path="/referral-login" element={<AdminLogin initialTab="referral" />} />
             <Route path="/referral/login" element={<AdminLogin initialTab="referral" />} />
@@ -174,6 +178,16 @@ function App() {
                 index
                 path="/Admin/hospital-commission"
                 element={<HospitalCommission />}
+              />
+              <Route
+                index
+                path="/Admin/gop-payments"
+                element={<GopPaymentsPage />}
+              />
+              <Route
+                index
+                path="/Admin/employee-activity"
+                element={<EmployeeActivityDashboard />}
               />
               <Route in path="/Admin/inquiry" element={<Inquiry />} />
               <Route index path="/Admin/Services" element={<Services />} />
@@ -444,6 +458,7 @@ function App() {
               element={<OrderDetailsRedirect />}
             />
           </Routes>
+          </ErrorBoundary>
         </Router>
       </Provider>
     </>

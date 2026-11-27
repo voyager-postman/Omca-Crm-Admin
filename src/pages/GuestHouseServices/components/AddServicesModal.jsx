@@ -7,7 +7,6 @@ import {
   createGHServiceRecord,
   fetchGHServiceCatalog,
   fetchGHServicesList,
-  GH_SERVICE_DURATIONS,
 } from "../../../services/guestHouseServicesApi";
 
 export default function AddServicesModal({ open, onClose, record = null, onSuccess }) {
@@ -813,23 +812,6 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
                         />
                       </div>
 
-                      <div className="col-md-2">
-                        <label className="form-label text-muted mb-0" style={{ fontSize: "11px" }}>
-                          Duration:
-                        </label>
-                        <select
-                          className="form-select form-select-sm"
-                          value={item.duration}
-                          onChange={(e) => handleServiceChange(idx, "duration", e.target.value)}
-                        >
-                          {GH_SERVICE_DURATIONS.map((dur) => (
-                            <option key={dur} value={dur}>
-                              {dur}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-
                       <div className="col-md-1">
                         <label className="form-label text-muted mb-0" style={{ fontSize: "11px" }}>
                           Disc %:
@@ -845,7 +827,7 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
                         />
                       </div>
 
-                      <div className="col-md-1 text-end">
+                      <div className="col-md-3 text-end">
                         <label className="form-label text-muted mb-0 d-block" style={{ fontSize: "11px" }}>
                           Row Total:
                         </label>
@@ -855,27 +837,9 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
                       </div>
                     </div>
 
-                    {/* Bottom inputs line: Date from, Date to, Specific notes/instructions */}
+                    {/* Bottom inputs line: Specific notes/instructions */}
                     <div className="row g-2 mt-1">
-                      <div className="col-md-3">
-                        <input
-                          type="date"
-                          className="form-control form-control-sm"
-                          value={item.startDate}
-                          onChange={(e) => handleServiceChange(idx, "startDate", e.target.value)}
-                          title="Start Date"
-                        />
-                      </div>
-                      <div className="col-md-3">
-                        <input
-                          type="date"
-                          className="form-control form-control-sm"
-                          value={item.endDate}
-                          onChange={(e) => handleServiceChange(idx, "endDate", e.target.value)}
-                          title="End Date"
-                        />
-                      </div>
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <input
                           type="text"
                           className="form-control form-control-sm"
@@ -1003,7 +967,7 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
 
                       <div className="col-md-1">
                         <label className="form-label text-muted mb-0" style={{ fontSize: "11px" }}>
-                          Persons:
+                          Qty:
                         </label>
                         <input
                           type="number"
@@ -1012,23 +976,6 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
                           value={item.quantity}
                           onChange={(e) => handleFoodChange(idx, "quantity", e.target.value)}
                         />
-                      </div>
-
-                      <div className="col-md-2">
-                        <label className="form-label text-muted mb-0" style={{ fontSize: "11px" }}>
-                          Frequency:
-                        </label>
-                        <select
-                          className="form-select form-select-sm"
-                          value={item.duration}
-                          onChange={(e) => handleFoodChange(idx, "duration", e.target.value)}
-                        >
-                          {GH_SERVICE_DURATIONS.map((dur) => (
-                            <option key={dur} value={dur}>
-                              {dur}
-                            </option>
-                          ))}
-                        </select>
                       </div>
 
                       <div className="col-md-1">
@@ -1046,7 +993,7 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
                         />
                       </div>
 
-                      <div className="col-md-1 text-end">
+                      <div className="col-md-3 text-end">
                         <label className="form-label text-muted mb-0 d-block" style={{ fontSize: "11px" }}>
                           Total:
                         </label>
@@ -1057,25 +1004,7 @@ export default function AddServicesModal({ open, onClose, record = null, onSucce
                     </div>
 
                     <div className="row g-2 mt-1">
-                      <div className="col-md-3">
-                        <input
-                          type="date"
-                          className="form-control form-control-sm"
-                          value={item.startDate}
-                          onChange={(e) => handleFoodChange(idx, "startDate", e.target.value)}
-                          title="Start Date"
-                        />
-                      </div>
-                      <div className="col-md-3">
-                        <input
-                          type="date"
-                          className="form-control form-control-sm"
-                          value={item.endDate}
-                          onChange={(e) => handleFoodChange(idx, "endDate", e.target.value)}
-                          title="End Date"
-                        />
-                      </div>
-                      <div className="col-md-6">
+                      <div className="col-md-12">
                         <input
                           type="text"
                           className="form-control form-control-sm"

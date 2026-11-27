@@ -92,7 +92,7 @@ import {
   markRequestRead,
   normalizeOtherEnquiryUnread,
   publishOtherEnquiryUnread,
-  getPartnerAttachedPatientUserIds,
+  getPartnerOtherEnquiryPayload,
   UNREAD_REFRESH_EVENT,
 } from "../services/unreadApi";
 import { clearUnreadById, UnreadDot } from "../components/NewTag";
@@ -576,11 +576,12 @@ export default function Inquiry() {
   };
   const statusRole = localStorage.getItem("Role");
   const get3tabdata = async (datauserId, getcountry, rolestatus) => {
-    const payload = {
+    const partnerPayload = getPartnerOtherEnquiryPayload();
+    const payload = partnerPayload || {
       user_ids: datauserId,
       accessCountries: getcountry,
       roleStatuses: rolestatus,
-      is_admin: statusRole === "Admin" || isReferral ? 1 : 0,
+      is_admin: statusRole === "Admin" ? 1 : 0,
     };
     try {
       const response = await axios.post(
@@ -2820,12 +2821,12 @@ export default function Inquiry() {
   };
   const getUserId = async () => {
     try {
-      const partnerUserIds = await getPartnerAttachedPatientUserIds();
-      if (partnerUserIds !== null) {
-        setDatauserId(partnerUserIds);
+      const partnerPayload = getPartnerOtherEnquiryPayload();
+      if (partnerPayload) {
+        setDatauserId([]);
         setGetcountries([]);
         setRoleStatuses([]);
-        get3tabdata(partnerUserIds, [], []);
+        get3tabdata([], [], []);
         return;
       }
 

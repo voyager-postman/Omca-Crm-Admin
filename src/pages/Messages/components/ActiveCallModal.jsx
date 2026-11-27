@@ -54,6 +54,25 @@ const getInitials = (name = "") => {
  */
 const createSafeVideoTrack = async () => {
   try {
+    if (navigator.mediaDevices?.enumerateDevices) {
+      const devices = await navigator.mediaDevices.enumerateDevices();
+      const videoDevices = devices.filter((d) => d.kind === "videoinput");
+      const realCam = videoDevices.find(
+        (d) =>
+          d.deviceId &&
+          d.label &&
+          !/virtual|screen|obs|capture|ndi|dummy|snap/i.test(d.label)
+      );
+      if (realCam) {
+        return await Video.createLocalVideoTrack({
+          deviceId: { exact: realCam.deviceId },
+          width: { ideal: 640, max: 1280 },
+          height: { ideal: 480, max: 720 },
+        });
+      }
+    }
+  } catch (_) {}
+  try {
     return await Video.createLocalVideoTrack({
       facingMode: "user",
       width: { ideal: 640, max: 1280 },

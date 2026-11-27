@@ -3,13 +3,19 @@ import { useNavigate } from "react-router-dom";
 
 export default function Protected({ Component }) {
   const navigate = useNavigate();
+  const isLoggedIn = Boolean(
+    localStorage.getItem("email") || localStorage.getItem("token")
+  );
 
   useEffect(() => {
-    const login = localStorage.getItem("email") || localStorage.getItem("token");
-    if (!login) {
+    if (!isLoggedIn) {
       navigate("/");
     }
-  }, [navigate]); // Adding `navigate` as a dependency
+  }, [isLoggedIn, navigate]);
+
+  if (!isLoggedIn) {
+    return null;
+  }
 
   return <Component />;
 }

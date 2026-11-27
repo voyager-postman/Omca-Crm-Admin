@@ -3,9 +3,10 @@ import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import Swal from "sweetalert2";
 import {
-  updateGHStayInfo,
+  updateGuestHouseStayBooking,
   GH_STATUSES,
 } from "../../../services/guestHouseServicesApi";
+import { fetchGuestHouses, fetchGuestHouseById } from "../../../services/guestHouseApi";
 
 export default function EditStayInfoModal({
   open,
@@ -14,14 +15,46 @@ export default function EditStayInfoModal({
   onSuccess,
 }) {
   const [loading, setLoading] = useState(false);
+  const [guestHouses, setGuestHouses] = useState([]);
+  const [roomsList, setRoomsList] = useState([]);
   const [formData, setFormData] = useState({
+    guestHouse_id: "",
+    guestHouseRoom_id: "",
     guestHouseName: "",
     roomNumber: "",
     stayDateRangeFrom: "",
     stayDateRangeTo: "",
+    rooms: 1,
+    adults: 1,
+    children: 0,
+    payment_status: "Pending",
     status: "Pending",
     notes: "",
   });
+
+  useEffect(() => {
+    if (open) {
+      fetchGuestHouses()
+        .then((res) => {
+          const list = Array.isArray(res) ? res : res?.data || [];
+          setGuestHouses(list);
+        })
+        .catch(() => {});
+    }
+  }, [open]);
+
+  useEffect(() => {
+    if (open && formData.guestHouse_id) {
+      fetchGuestHouseById(formData.guestHouse_id)
+        .then((res) => {
+          const gh = res?.data || res;
+          setRoomsList(Array.isArray(gh?.rooms) ? gh.rooms : []);
+        })
+        .catch(() => setRoomsList([]));
+    } else {
+      setRoomsList([]);
+    }
+  }, [open, formData.guestHouse_id]);
 
   useEffect(() => {
     if (open && record) {
@@ -37,6 +70,8 @@ export default function EditStayInfoModal({
         "";
 
       setFormData({
+        guestHouse_id: record.guestHouse_id || record.guest_house_id || "",
+        guestHouseRoom_id: record.guestHouseRoom_id || record.guest_house_room_id || "",
         guestHouseName: record.guest_house_name || record.guestHouseName || "",
         roomNumber:
           record.guest_house_room_type ||
@@ -45,6 +80,10 @@ export default function EditStayInfoModal({
           "",
         stayDateRangeFrom: fromDate ? fromDate.slice(0, 10) : "",
         stayDateRangeTo: toDate ? toDate.slice(0, 10) : "",
+        rooms: record.rooms ?? 1,
+        adults: record.adults ?? 1,
+        children: record.children ?? 0,
+        payment_status: record.payment_status || "Pending",
         status: record.status || "Pending",
         notes: record.notes || record.remarks || "",
       });
@@ -55,21 +94,16 @@ export default function EditStayInfoModal({
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+      ...(name === "guestHouse_id" ? { guestHouseRoom_id: "" } : {}),
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!formData.guestHouseName.trim()) {
-      Swal.fire("Validation Error", "Guest House name is required.", "warning");
-      return;
-    }
-
-    const identifier =
-      record.booking_id ||
-      record.id ||
-      record._id ||
-      record.guestHouseServiceId;
+    const identifier = record.id || record.booking_id || record._id || record.guestHouseServiceId;
 
     if (!identifier) {
       Swal.fire("Error", "Could not identify booking to update.", "error");
@@ -78,17 +112,16 @@ export default function EditStayInfoModal({
 
     setLoading(true);
     try {
-      await updateGHStayInfo(identifier, {
-        guest_house_name: formData.guestHouseName.trim(),
-        guestHouseName: formData.guestHouseName.trim(),
-        guest_house_room_type: formData.roomNumber.trim(),
-        roomNumber: formData.roomNumber.trim(),
+      await updateGuestHouseStayBooking(identifier, {
+        guestHouse_id: formData.guestHouse_id,
+        guestHouseRoom_id: formData.guestHouseRoom_id,
         checkin: formData.stayDateRangeFrom,
         checkout: formData.stayDateRangeTo,
-        stayDateRangeFrom: formData.stayDateRangeFrom,
-        stayDateRangeTo: formData.stayDateRangeTo,
+        rooms: formData.rooms,
+        adults: formData.adults,
+        children: formData.children,
+        payment_status: formData.payment_status,
         status: formData.status,
-        notes: formData.notes,
         remarks: formData.notes,
       });
 
@@ -182,34 +215,63 @@ export default function EditStayInfoModal({
       <DialogContent style={{ padding: "20px", flex: "1 1 auto", overflowY: "auto" }}>
         <form onSubmit={handleSubmit}>
           <div className="row g-3">
-            <div className="col-md-8">
-              <label className="form-label small fw-bold text-dark">
-                Guest House Name <span className="text-danger">*</span>
-              </label>
-              <input
-                type="text"
-                required
-                name="guestHouseName"
-                value={formData.guestHouseName}
-                onChange={handleChange}
-                className="form-control"
-              />
-            </div>
-
-            <div className="col-md-4">
-              <label className="form-label small fw-bold text-dark">Room Number</label>
-              <input
-                type="text"
-                name="roomNumber"
-                placeholder="e.g. 204, Suite 1"
-                value={formData.roomNumber}
-                onChange={handleChange}
-                className="form-control"
-              />
+            <div className="col-md-6">
+              <label className="form-label small fw-bold text-dark">Guest House</label>
+              {guestHouses.length > 0 ? (
+                <select
+                  name="guestHouse_id"
+                  value={formData.guestHouse_id}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  <option value="">{formData.guestHouseName || "Select Guest House"}</option>
+                  {guestHouses.map((gh) => (
+                    <option key={gh.id || gh._id} value={gh.id || gh._id}>
+                      {gh.name || gh.title}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  name="guestHouseName"
+                  value={formData.guestHouseName}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              )}
             </div>
 
             <div className="col-md-6">
-              <label className="form-label small fw-bold text-dark">Stay From</label>
+              <label className="form-label small fw-bold text-dark">Room / Room Type</label>
+              {roomsList.length > 0 ? (
+                <select
+                  name="guestHouseRoom_id"
+                  value={formData.guestHouseRoom_id}
+                  onChange={handleChange}
+                  className="form-select"
+                >
+                  <option value="">{formData.roomNumber || "Select Room"}</option>
+                  {roomsList.map((rm) => (
+                    <option key={rm.id || rm._id} value={rm.id || rm._id}>
+                      {rm.room_type || rm.name || `Room #${rm.id}`}
+                    </option>
+                  ))}
+                </select>
+              ) : (
+                <input
+                  type="text"
+                  name="roomNumber"
+                  placeholder="e.g. 204, Suite 1"
+                  value={formData.roomNumber}
+                  onChange={handleChange}
+                  className="form-control"
+                />
+              )}
+            </div>
+
+            <div className="col-md-6">
+              <label className="form-label small fw-bold text-dark">Check-in</label>
               <input
                 type="date"
                 name="stayDateRangeFrom"
@@ -220,7 +282,7 @@ export default function EditStayInfoModal({
             </div>
 
             <div className="col-md-6">
-              <label className="form-label small fw-bold text-dark">Stay To</label>
+              <label className="form-label small fw-bold text-dark">Check-out</label>
               <input
                 type="date"
                 name="stayDateRangeTo"
@@ -228,6 +290,56 @@ export default function EditStayInfoModal({
                 onChange={handleChange}
                 className="form-control"
               />
+            </div>
+
+            <div className="col-md-4">
+              <label className="form-label small fw-bold text-dark">Rooms</label>
+              <input
+                type="number"
+                min="1"
+                name="rooms"
+                value={formData.rooms}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+
+            <div className="col-md-4">
+              <label className="form-label small fw-bold text-dark">Adults</label>
+              <input
+                type="number"
+                min="1"
+                name="adults"
+                value={formData.adults}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+
+            <div className="col-md-4">
+              <label className="form-label small fw-bold text-dark">Children</label>
+              <input
+                type="number"
+                min="0"
+                name="children"
+                value={formData.children}
+                onChange={handleChange}
+                className="form-control"
+              />
+            </div>
+
+            <div className="col-md-6">
+              <label className="form-label small fw-bold text-dark">Payment Status</label>
+              <select
+                name="payment_status"
+                value={formData.payment_status}
+                onChange={handleChange}
+                className="form-select"
+              >
+                <option value="Pending">Pending</option>
+                <option value="Partial">Partial</option>
+                <option value="Paid">Paid</option>
+              </select>
             </div>
 
             <div className="col-md-6">
@@ -238,7 +350,15 @@ export default function EditStayInfoModal({
                 onChange={handleChange}
                 className="form-select"
               >
-                {GH_STATUSES.filter((st) => st !== "ALL").map((st) => (
+                {Array.from(
+                  new Set([
+                    ...GH_STATUSES.filter((st) => st !== "ALL"),
+                    "Confirmed",
+                    "Checked-In",
+                    "Checked-Out",
+                    "Cancelled",
+                  ])
+                ).map((st) => (
                   <option key={st} value={st}>
                     {st}
                   </option>
@@ -247,11 +367,11 @@ export default function EditStayInfoModal({
             </div>
 
             <div className="col-12">
-              <label className="form-label small fw-bold text-dark">General Stay Notes / Special Requests</label>
+              <label className="form-label small fw-bold text-dark">Remarks / Notes</label>
               <textarea
                 rows="2"
                 name="notes"
-                placeholder="e.g. Patient checked out early, vegetarian meal plan"
+                placeholder="e.g. Updated booking details via CRM"
                 value={formData.notes}
                 onChange={handleChange}
                 className="form-control"

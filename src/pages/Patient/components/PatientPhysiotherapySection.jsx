@@ -101,20 +101,20 @@ export default function PatientPhysiotherapySection({
             </p>
           </div>
           {!isReferral && (
-          <button
-            type="button"
-            className="btn btn-primary btn-sm fw-bold d-flex align-items-center gap-2 shadow-sm"
-            style={{
-              backgroundColor: "#0284c7",
-              borderColor: "#0284c7",
-              borderRadius: "6px",
-              padding: "7px 16px",
-              fontSize: "13px",
-            }}
-            onClick={() => setReferralModalOpen(true)}
-          >
-            <i className="fa fa-plus" /> New Referral
-          </button>
+            <button
+              type="button"
+              className="btn btn-primary btn-sm fw-bold d-flex align-items-center gap-2 shadow-sm"
+              style={{
+                backgroundColor: "#0284c7",
+                borderColor: "#0284c7",
+                borderRadius: "6px",
+                padding: "7px 16px",
+                fontSize: "13px",
+              }}
+              onClick={() => setReferralModalOpen(true)}
+            >
+              <i className="fa fa-plus" /> New Referral
+            </button>
           )}
         </div>
       </div>
@@ -148,13 +148,13 @@ export default function PatientPhysiotherapySection({
               The patient does not currently have any active physiotherapy referral. Click below to create a referral with prescribed sessions and clinical goals.
             </p>
             {!isReferral && (
-            <button
-              type="button"
-              className="btn btn-primary btn-sm px-4"
-              onClick={() => setReferralModalOpen(true)}
-            >
-              <i className="fa fa-plus me-1" /> Refer to Physiotherapy
-            </button>
+              <button
+                type="button"
+                className="btn btn-primary btn-sm px-4"
+                onClick={() => setReferralModalOpen(true)}
+              >
+                <i className="fa fa-plus me-1" /> Refer to Physiotherapy
+              </button>
             )}
           </div>
         </div>
@@ -167,9 +167,8 @@ export default function PatientPhysiotherapySection({
                 <button
                   key={c._id || idx}
                   type="button"
-                  className={`btn btn-sm ${
-                    activeCaseIndex === idx ? "btn-primary fw-bold" : "btn-outline-secondary"
-                  }`}
+                  className={`btn btn-sm ${activeCaseIndex === idx ? "btn-primary fw-bold" : "btn-outline-secondary"
+                    }`}
                   onClick={() => setActiveCaseIndex(idx)}
                 >
                   Case #{idx + 1}: {typeof c.category === "object" ? c.category?.name || "Rehab" : c.category || "Rehab"} ({typeof c.status === "object" ? c.status?.name || "Active" : c.status})
@@ -299,13 +298,13 @@ export default function PatientPhysiotherapySection({
                 <div className="text-center py-4 bg-light rounded border">
                   <p className="small text-muted mb-2">No sessions logged yet for this case.</p>
                   {!isReferral && (
-                  <button
-                    type="button"
-                    className="btn btn-outline-success btn-sm"
-                    onClick={() => setSessionModalOpen(true)}
-                  >
-                    <i className="fa fa-plus me-1" /> Log First Session
-                  </button>
+                    <button
+                      type="button"
+                      className="btn btn-outline-success btn-sm"
+                      onClick={() => setSessionModalOpen(true)}
+                    >
+                      <i className="fa fa-plus me-1" /> Log First Session
+                    </button>
                   )}
                 </div>
               ) : (
@@ -340,31 +339,30 @@ export default function PatientPhysiotherapySection({
                                 Array.isArray(sess.exercisesPerformed) && sess.exercisesPerformed.length > 0
                                   ? sess.exercisesPerformed
                                   : Array.isArray(sess.exercises) && sess.exercises.length > 0
-                                  ? sess.exercises
-                                  : [];
+                                    ? sess.exercises
+                                    : [];
                               if (exList.length === 0 && !sess.exerciseNotes) return "-";
                               return (
                                 <div>
                                   {exList.length > 0 && (
-                                  <div className="d-flex flex-wrap gap-1">
-                                  {exList.map((ex, i) => {
-                                    const label =
-                                      typeof ex === "string"
-                                        ? ex
-                                        : ex?.exerciseName || ex?.name
-                                        ? `${ex.exerciseName || ex.name} (${ex.sets || 3}x${ex.repetitions || ex.reps || 10}${
-                                            ex.hold || ex.holdTimeSeconds
-                                              ? ` hold ${ex.hold || `${ex.holdTimeSeconds}s`}`
-                                              : ""
-                                          })${ex.notes ? ` — ${ex.notes}` : ""}`
-                                        : "-";
-                                    return (
-                                      <span key={i} className="badge bg-light text-dark border">
-                                        {label}
-                                      </span>
-                                    );
-                                  })}
-                                  </div>
+                                    <div className="d-flex flex-wrap gap-1">
+                                      {exList.map((ex, i) => {
+                                        const label =
+                                          typeof ex === "string"
+                                            ? ex
+                                            : ex?.exerciseName || ex?.name
+                                              ? `${ex.exerciseName || ex.name} (${ex.sets || 3}x${ex.repetitions || ex.reps || 10}${ex.hold || ex.holdTimeSeconds
+                                                ? ` hold ${ex.hold || `${ex.holdTimeSeconds}s`}`
+                                                : ""
+                                              })${ex.notes ? ` — ${ex.notes}` : ""}`
+                                              : "-";
+                                        return (
+                                          <span key={i} className="badge bg-light text-dark border">
+                                            {label}
+                                          </span>
+                                        );
+                                      })}
+                                    </div>
                                   )}
                                   {sess.exerciseNotes ? (
                                     <div className="text-muted mt-1" style={{ fontSize: "11px" }}>
@@ -407,20 +405,20 @@ export default function PatientPhysiotherapySection({
                               : sess.progressRemarks || "-"}
                           </td>
                           {!isReferral && (
-                          <td>
-                            <button
-                              type="button"
-                              className="btn btn-outline-primary btn-sm py-0 px-2 d-flex align-items-center gap-1"
-                              style={{ fontSize: "11px", borderRadius: "5px" }}
-                              onClick={() => {
-                                setEditingSession(sess);
-                                setSessionModalOpen(true);
-                              }}
-                              title="Edit Session"
-                            >
-                              <i className="fa fa-pencil" /> Edit
-                            </button>
-                          </td>
+                            <td>
+                              <button
+                                type="button"
+                                className="btn btn-outline-primary btn-sm py-0 px-2 d-flex align-items-center gap-1"
+                                style={{ fontSize: "11px", borderRadius: "5px" }}
+                                onClick={() => {
+                                  setEditingSession(sess);
+                                  setSessionModalOpen(true);
+                                }}
+                                title="Edit Session"
+                              >
+                                <i className="fa fa-pencil" /> Edit
+                              </button>
+                            </td>
                           )}
                         </tr>
                       ))}

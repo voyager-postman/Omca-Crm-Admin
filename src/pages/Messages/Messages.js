@@ -1006,7 +1006,25 @@ export default function Messages() {
     setListLoading(true);
     try {
       const list = await fetchChatList(crmUserId);
-      setChats((list || []).map(normalizeChat));
+      const normalizedList = (list || []).map(normalizeChat);
+      setChats(normalizedList);
+      setActiveChat((curr) => {
+        if (!curr || curr.isGroup) return curr;
+        const fresh = normalizedList.find((c) => c.chatId === curr.chatId);
+        if (!fresh) return curr;
+        return {
+          ...curr,
+          isOnline: fresh.isOnline,
+          status: fresh.status,
+          otherUser: curr.otherUser
+            ? {
+                ...curr.otherUser,
+                isOnline: fresh.isOnline,
+                status: fresh.status,
+              }
+            : curr.otherUser,
+        };
+      });
     } catch (err) {
       console.error(err);
       toast.error(err?.response?.data?.message || "Failed to load chats");
@@ -2815,21 +2833,27 @@ export default function Messages() {
                           })()
                         )}
                       </div>
-                      <small
-                        className={
-                          activeChat.isGroup
-                            ? "text-muted"
-                            : activeChat.isOnline
-                              ? "text-online"
-                              : "text-offline"
-                        }
-                      >
-                        {activeChat.isGroup
-                          ? `${activeChat.memberIds?.length || activeChat.members?.length || 0} participants`
-                          : activeChat.isOnline
-                            ? "Online"
-                            : "Offline"}
-                      </small>
+                      {(() => {
+                        const liveChat = chats.find((c) => c.chatId === activeChat.chatId);
+                        const isActiveOnline = Boolean(liveChat ? liveChat.isOnline : activeChat.isOnline);
+                        return (
+                          <small
+                            className={
+                              activeChat.isGroup
+                                ? "text-muted"
+                                : isActiveOnline
+                                  ? "text-online"
+                                  : "text-offline"
+                            }
+                          >
+                            {activeChat.isGroup
+                              ? `${activeChat.memberIds?.length || activeChat.members?.length || 0} participants`
+                              : isActiveOnline
+                                ? "Online"
+                                : "Offline"}
+                          </small>
+                        );
+                      })()}
                     </div>
 
                     <div className="crm-chat-thread-actions">

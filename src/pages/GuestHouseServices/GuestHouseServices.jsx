@@ -8,6 +8,7 @@ import {
   fetchGHDashboardStats,
   fetchGHServicesList,
   deleteGHRecord,
+  deleteGuestHouseStayBooking,
   GH_STATUSES,
 } from "../../services/guestHouseServicesApi";
 import { fetchGuestHouses } from "../../services/guestHouseApi";
@@ -178,6 +179,30 @@ export default function GuestHouseServices({ embedded = false }) {
     setDateTo("");
     setOnlyWithServices(false);
     setCurrentPage(1);
+  };
+
+  const handleDeleteBooking = async (rec) => {
+    const bId = rec.booking_id || `Booking #${rec.id}`;
+    const result = await Swal.fire({
+      title: "Delete Guest House Booking?",
+      text: `Are you sure you want to delete ${bId} (${rec.name || rec.patient_name || "Patient"})?`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#ef4444",
+      confirmButtonText: "Yes, Delete Booking",
+    });
+
+    if (result.isConfirmed) {
+      try {
+        const targetId = rec.id || rec.booking_id || rec._id || rec.guestHouseServiceId;
+        await deleteGuestHouseStayBooking(targetId, false);
+        Swal.fire("Deleted", "Guest house booking deleted successfully.", "success");
+        loadRecords();
+        loadStats();
+      } catch (err) {
+        Swal.fire("Error", err?.response?.data?.message || err?.message || "Failed to delete booking", "error");
+      }
+    }
   };
 
   const handleDelete = async (rec) => {
@@ -809,6 +834,21 @@ export default function GuestHouseServices({ embedded = false }) {
                             </button>
                           </Tooltip>
 
+                          <Tooltip title="Edit Stay Booking" arrow placement="top">
+                            <button
+                              type="button"
+                              className="action-btn-circle action-btn-circle-view"
+                              onClick={() => {
+                                setSelectedRecord(rec);
+                                setEditStayOpen(true);
+                              }}
+                              title="Edit Stay Booking"
+                              aria-label="Edit Stay Booking"
+                            >
+                              <i className="fa fa-pencil" />
+                            </button>
+                          </Tooltip>
+
                           {servicesCount > 0 && (
                             <Tooltip title="Clear Add-On Services" arrow placement="top">
                               <button
@@ -818,10 +858,22 @@ export default function GuestHouseServices({ embedded = false }) {
                                 title="Clear Add-on Services"
                                 aria-label="Clear Add-on Services"
                               >
-                                <i className="fa fa-trash" />
+                                <i className="fa fa-eraser" />
                               </button>
                             </Tooltip>
                           )}
+
+                          <Tooltip title="Delete Booking" arrow placement="top">
+                            <button
+                              type="button"
+                              className="action-btn-circle action-btn-circle-delete"
+                              onClick={() => handleDeleteBooking(rec)}
+                              title="Delete Booking"
+                              aria-label="Delete Booking"
+                            >
+                              <i className="fa fa-trash" />
+                            </button>
+                          </Tooltip>
                         </div>
                       </td>
                     </tr>

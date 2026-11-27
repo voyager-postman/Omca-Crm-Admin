@@ -2,14 +2,10 @@ import axios from "axios";
 import { AdminBaseUrl, baseurl } from "../Basurl/Baseurl";
 import {
   isReferralUser,
-  getReferralId,
   getReferralMysqlId,
   isInsuranceUser,
-  getInsuranceId,
   getInsuranceMysqlId,
 } from "../utils/authStorage";
-import { fetchReferralPatients } from "./referralApi";
-import { fetchInsurancePatients } from "./insuranceApi";
 
 const API_BASE = baseurl.endsWith("/") ? baseurl : `${baseurl}/`;
 
@@ -409,32 +405,30 @@ let lastOtherEnquiryUnreadFetchTime = 0;
 let cachedOtherEnquiryUnreadMemory = null;
 let otherEnquiry429BackoffUntil = 0;
 
-export const getPartnerAttachedPatientUserIds = async () => {
-  if (isInsuranceUser()) {
-    const insId = getInsuranceId();
-    if (!insId) return [];
-    const res = await fetchInsurancePatients(insId, { limit: 1000 });
-    const list = res?.patients || res?.data || [];
-    return Array.from(
-      new Set(
-        (Array.isArray(list) ? list : [])
-          .map((p) => String(p?.user_id ?? p?.userId ?? p?.patient_user_id ?? p?.id ?? "").trim())
-          .filter(Boolean)
-      )
-    );
-  }
+export const getPartnerOtherEnquiryPayload = () => {
   if (isReferralUser()) {
-    const refId = getReferralId();
-    if (!refId) return [];
-    const res = await fetchReferralPatients(refId, { limit: 1000 });
-    const list = res?.patients || res?.data || [];
-    return Array.from(
-      new Set(
-        (Array.isArray(list) ? list : [])
-          .map((p) => String(p?.user_id ?? p?.userId ?? p?.patient_user_id ?? p?.id ?? "").trim())
-          .filter(Boolean)
-      )
-    );
+    const mysqlId = getReferralMysqlId();
+    return {
+      user_id:
+        mysqlId != null
+          ? !isNaN(Number(mysqlId))
+            ? Number(mysqlId)
+            : mysqlId
+          : undefined,
+      type: "referral",
+    };
+  }
+  if (isInsuranceUser()) {
+    const mysqlId = getInsuranceMysqlId();
+    return {
+      user_id:
+        mysqlId != null
+          ? !isNaN(Number(mysqlId))
+            ? Number(mysqlId)
+            : mysqlId
+          : undefined,
+      type: "insurance",
+    };
   }
   return null;
 };
@@ -455,15 +449,10 @@ export const fetchOtherEnquiryUnread = async (force = false) => {
 
   inFlightOtherEnquiryUnreadPromise = (async () => {
     try {
-      const partnerUserIds = await getPartnerAttachedPatientUserIds();
+      const partnerPayload = getPartnerOtherEnquiryPayload();
       let requestPayload;
-      if (partnerUserIds !== null) {
-        requestPayload = {
-          user_ids: partnerUserIds,
-          accessCountries: [],
-          roleStatuses: [],
-          is_admin: 1,
-        };
+      if (partnerPayload) {
+        requestPayload = partnerPayload;
       } else {
         const idsResponse = await axios.get(`${API_BASE}get_patient_user_ids`, {
           headers: getAuthHeaders(),

@@ -9,6 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import Box from "@mui/material/Box";
+import Skeleton from "@mui/material/Skeleton";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import avtar from "../../img/avtarImg.jpg";
 import omcaFoundationLetterhead from "../../img/omca-foundation-letterhead.png";
@@ -1352,6 +1353,18 @@ function PatientDetail() {
   useEffect(() => {
     dispatch(GetAllCountries2());
     if (effectivePatientDetailId) {
+      const targetId = String(effectivePatientDetailId).trim();
+      const currMatches =
+        ispatient &&
+        (String(ispatient?._id || "") === targetId ||
+          String(ispatient?.patientId || "") === targetId ||
+          String(ispatient?.id || "") === targetId ||
+          String(ispatient?.omca_patient_id || "") === targetId);
+      if (!currMatches) {
+        setIspatient(null);
+        setTretment([]);
+        setTreatemntData1([]);
+      }
       dispatch(GetPatientTreatments({ id: effectivePatientDetailId }));
     }
   }, [dispatch, effectivePatientDetailId]);
@@ -2993,48 +3006,6 @@ function PatientDetail() {
       console.error("Error fetching services:", error);
     }
   };
-
-  if (loading && !PatientTreatments) {
-    return (
-      <div className="page-wrapper">
-        <div className="content">
-          <div className="card p-5 text-center mt-3 shadow-sm border-0">
-            <div className="py-4">
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
-              </div>
-              <h5 className="mt-3 text-secondary">Loading patient details...</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
-  if (error && !PatientTreatments) {
-    return (
-      <div className="page-wrapper">
-        <div className="content">
-          <div className="card p-5 text-center mt-3 shadow-sm border-0">
-            <div className="py-4">
-              <i className="fa fa-exclamation-circle fa-3x text-danger mb-3" />
-              <h5 className="text-secondary">Failed to Load Patient</h5>
-              <p className="text-muted">
-                {typeof error === "object" ? error.message || "An error occurred" : String(error)}
-              </p>
-              <button
-                type="button"
-                className="btn btn-primary mt-2 px-4"
-                style={{ backgroundColor: "#0ba6df", borderColor: "#0ba6df" }}
-                onClick={() => navigate("/Admin/patients")}
-              >
-                <i className="fa fa-arrow-left me-2" /> Back to Manage Patients
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const andlechange = (e) => {
     const { name, value } = e.target;
@@ -8964,6 +8935,99 @@ function PatientDetail() {
       }
     }
   };
+
+  const isCurrentPatientLoaded = Boolean(
+    ispatient &&
+      effectivePatientDetailId &&
+      (String(ispatient?._id || "") === String(effectivePatientDetailId) ||
+        String(ispatient?.patientId || "") === String(effectivePatientDetailId) ||
+        String(ispatient?.id || "") === String(effectivePatientDetailId) ||
+        String(ispatient?.omca_patient_id || "") === String(effectivePatientDetailId))
+  );
+
+  if ((loading || !isCurrentPatientLoaded) && !error) {
+    return (
+      <div className="page-wrapper">
+        <div className="content">
+          {/* Header Skeleton */}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <Skeleton variant="text" width={180} height={32} />
+            <Skeleton variant="rounded" width={120} height={36} />
+          </div>
+
+          {/* Patient Profile Card Skeleton */}
+          <div className="card p-4 mb-3 shadow-sm border-0" style={{ borderRadius: "12px" }}>
+            <div className="row align-items-center g-3">
+              <div className="col-md-4 d-flex align-items-center gap-3">
+                <Skeleton variant="circular" width={90} height={90} />
+                <div className="flex-grow-1">
+                  <Skeleton variant="text" width="75%" height={28} />
+                  <Skeleton variant="text" width="60%" height={20} />
+                  <Skeleton variant="text" width="65%" height={20} />
+                </div>
+              </div>
+              <div className="col-md-4">
+                <Skeleton variant="text" width="70%" height={22} />
+                <Skeleton variant="text" width="85%" height={22} />
+                <Skeleton variant="text" width="45%" height={22} />
+                <Skeleton variant="text" width="35%" height={22} />
+              </div>
+              <div className="col-md-4">
+                <Skeleton variant="text" width="90%" height={22} />
+                <Skeleton variant="text" width="60%" height={22} />
+                <Skeleton variant="text" width="55%" height={22} />
+                <Skeleton variant="text" width="75%" height={22} />
+              </div>
+            </div>
+          </div>
+
+          {/* Tabs Bar Skeleton */}
+          <div className="card p-3 mb-3 shadow-sm border-0" style={{ borderRadius: "12px" }}>
+            <div className="d-flex flex-wrap gap-3">
+              {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+                <Skeleton key={i} variant="rounded" width={115} height={32} />
+              ))}
+            </div>
+          </div>
+
+          {/* Content Section Skeleton */}
+          <div className="card p-4 shadow-sm border-0" style={{ borderRadius: "12px" }}>
+            <div className="d-flex justify-content-between align-items-center mb-3">
+              <Skeleton variant="rounded" width={160} height={34} />
+              <Skeleton variant="rounded" width={170} height={36} />
+            </div>
+            <Skeleton variant="rounded" width="100%" height={70} className="mb-3" />
+            <Skeleton variant="rounded" width="100%" height={140} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (error && !isCurrentPatientLoaded) {
+    return (
+      <div className="page-wrapper">
+        <div className="content">
+          <div className="card p-5 text-center mt-3 shadow-sm border-0">
+            <div className="py-4">
+              <i className="fa fa-exclamation-circle fa-3x text-danger mb-3" />
+              <h5 className="text-secondary">Failed to Load Patient</h5>
+              <p className="text-muted">
+                {typeof error === "object" ? error.message || "An error occurred" : String(error)}
+              </p>
+              <button
+                type="button"
+                className="btn btn-primary mt-2 px-4"
+                style={{ backgroundColor: "#0ba6df", borderColor: "#0ba6df" }}
+                onClick={() => navigate("/Admin/patients")}
+              >
+                <i className="fa fa-arrow-left me-2" /> Back to Manage Patients
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (isCoordinatorUnauthorized) {
     return (

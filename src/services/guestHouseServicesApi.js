@@ -516,21 +516,68 @@ export const deleteGHRecord = async (identifier) => {
 };
 
 /**
+ * Update Guest House Stay in CRM (POST /api/crm/stay/update)
+ */
+export const updateGuestHouseStayBooking = async (id, stayData = {}) => {
+  const root = AdminBaseUrl?.endsWith("/") ? AdminBaseUrl : `${AdminBaseUrl}/`;
+  const url = `${root}stay/update`;
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "";
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const numericId = !isNaN(Number(id)) && String(id).trim() !== "" ? Number(id) : id;
+  const payload = { id: numericId };
+
+  if (stayData.guestHouse_id != null && stayData.guestHouse_id !== "") {
+    payload.guestHouse_id = Number(stayData.guestHouse_id) || stayData.guestHouse_id;
+  }
+  if (stayData.guestHouseRoom_id != null && stayData.guestHouseRoom_id !== "") {
+    payload.guestHouseRoom_id = Number(stayData.guestHouseRoom_id) || stayData.guestHouseRoom_id;
+  }
+  if (stayData.checkin) payload.checkin = stayData.checkin;
+  if (stayData.checkout) payload.checkout = stayData.checkout;
+  if (stayData.rooms != null && stayData.rooms !== "") payload.rooms = Number(stayData.rooms);
+  if (stayData.adults != null && stayData.adults !== "") payload.adults = Number(stayData.adults);
+  if (stayData.children != null && stayData.children !== "") payload.children = Number(stayData.children);
+  if (stayData.payment_status) payload.payment_status = stayData.payment_status;
+  if (stayData.payment_mode) payload.payment_mode = stayData.payment_mode;
+  if (stayData.room_amount != null && stayData.room_amount !== "") payload.room_amount = Number(stayData.room_amount);
+  if (stayData.status) payload.status = stayData.status;
+  if (stayData.remarks !== undefined) payload.remarks = stayData.remarks;
+  if (stayData.notes !== undefined && payload.remarks === undefined) payload.remarks = stayData.notes;
+
+  const res = await axios.post(url, payload, { headers, timeout: 15000 });
+  return res.data;
+};
+
+/**
+ * Delete Guest House Stay in CRM (POST /api/crm/stay/delete)
+ * Soft delete by default; pass force=true for permanent delete.
+ */
+export const deleteGuestHouseStayBooking = async (id, force = false) => {
+  const root = AdminBaseUrl?.endsWith("/") ? AdminBaseUrl : `${AdminBaseUrl}/`;
+  const url = `${root}stay/delete`;
+  const token = localStorage.getItem("token") || sessionStorage.getItem("token") || "";
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
+
+  const numericId = !isNaN(Number(id)) && String(id).trim() !== "" ? Number(id) : id;
+  const payload = { id: numericId, ...(force ? { force: true } : {}) };
+  const res = await axios.post(url, payload, { headers, timeout: 15000 });
+  return res.data;
+};
+
+/**
  * Backwards compatibility for updating stay status or room notes
  */
 export const updateGHStayInfo = async (identifier, data) => {
-  try {
-    const res = await axios.put(`${getCleanBase()}update/${identifier}`, data, {
-      headers: getAuthHeaders(),
-      timeout: 10000,
-    });
-    if (res.data && res.data.success) {
-      return res.data;
-    }
-  } catch (err) {
-    console.warn("updateGHStayInfo API call:", err.message);
-  }
-  return { success: true, message: "Updated" };
+  return updateGuestHouseStayBooking(identifier, data);
 };
 
 /**

@@ -387,9 +387,20 @@ const PatientTreatmentSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(GetPatientTreatments.pending, (state) => {
+      .addCase(GetPatientTreatments.pending, (state, action) => {
         state.loading = true;
         state.error = null;
+        const nextId = String(action.meta?.arg?.id || "").trim();
+        const curr = state.PatientTreatments || {};
+        const matchesCurrent =
+          nextId &&
+          (String(curr._id || "") === nextId ||
+            String(curr.patientId || "") === nextId ||
+            String(curr.id || "") === nextId ||
+            String(curr.omca_patient_id || "") === nextId);
+        if (!matchesCurrent) {
+          state.PatientTreatments = {};
+        }
       })
       .addCase(GetPatientTreatments.fulfilled, (state, action) => {
         state.loading = false;
